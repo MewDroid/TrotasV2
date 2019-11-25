@@ -1,5 +1,3 @@
 # Arrays_Trot
-Private repo
-
-
-Projecto de IP 2 !
+Projecto de IP: - GetNome, GetEmail, GetSaldo, Get(...) -> em falta
+                - hasCliente, hasTrot -> feito
