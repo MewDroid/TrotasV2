@@ -7,8 +7,13 @@ public class TrotSystem {
 	public static final int INTERVALOS_DE_PENALIZACAO = 30;
 
 	// Clientes e Trotinetes.
-	private Cliente[] cliente;
-	private Trot[] trot;
+	private Cliente cliente;
+	private Trot trot;
+
+	// Backups.
+	private Cliente clienteBackup;
+	private Trot trotBackup;
+	private TrotSystem trotSystemBackup;
 
 	// Dados estatisticos.
 	private int alugueres;
@@ -294,8 +299,8 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean hasCliente() {
-		return cliente != null;
+	public boolean hasCliente(String NIF) {
+		return cliente != null **;
 	}
 
 	/**

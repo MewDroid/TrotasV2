@@ -190,7 +190,7 @@ public class Main {
 	 */
 	public static void adicionarCliente(String NIF, String email, String telefone, String nome, TrotSystem sys) {
 
-		if (!sys.hasCliente() || !sys.getNIF().equalsIgnoreCase(NIF)) {
+		if (!sys.hasCliente(NIF)) {
 			sys.adicionarCliente(NIF, email, telefone, nome);
 			System.out.println(SUCESSOS[0]);
 		} else {
@@ -438,7 +438,6 @@ public class Main {
 	 */
 
 	public static void dadosTrot(String idTrot, TrotSystem sys) {
-		;
 
 		if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
 			System.out.println(sys.getMatricula() + ": " + sys.estadoTrot() + ", " + sys.getAlugueresTrot() + ", "
