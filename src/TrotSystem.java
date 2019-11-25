@@ -7,8 +7,17 @@ public class TrotSystem {
 	public static final int INTERVALOS_DE_PENALIZACAO = 30;
 
 	// Clientes e Trotinetes.
-	private Cliente[] cliente;
-	private Trot[] trot;
+	private Cliente cliente;
+	private Trot trot;
+
+	// Iteradores
+	private IteradorCliente ItC;
+	private IteradorTrot ItT;
+	
+	// Backups.
+	private Cliente clienteBackup;
+	private Trot trotBackup;
+	private TrotSystem trotSystemBackup;
 
 	// Dados estatisticos.
 	private int alugueres;
@@ -44,11 +53,12 @@ public class TrotSystem {
 
 	/**
 	 * Remover um cliente existente.
+	 * @param NIF 
 	 * 
 	 * @param NIF
 	 * @return
 	 */
-	public void removerCliente() {
+	public void removerCliente(String NIF) {
 		cliente = null;
 
 	}
@@ -294,15 +304,15 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean hasCliente() {
-		return cliente != null;
+	public boolean hasCliente(String NIF) {
+		return ItC.searchNIF(NIF);
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean hasTrot() {
-		return trot != null;
+	public boolean hasTrot(String idTrot) {
+		return ItT.hasTrot(idTrot);
 	}
 
 	/**
