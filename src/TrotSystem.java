@@ -318,7 +318,7 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean trotIsLivre() {
+	public boolean trotIsLivre(String idTrot) {
 		return trot.livre();
 	}
 
