@@ -10,6 +10,10 @@ public class TrotSystem {
 	private Cliente cliente;
 	private Trot trot;
 
+	// Iteradores
+	private IteradorCliente ItC;
+	private IteradorTrot ItT;
+	
 	// Backups.
 	private Cliente clienteBackup;
 	private Trot trotBackup;
@@ -300,14 +304,14 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean hasCliente(String NIF) {
-		return cliente != null **;
+		return ItC.searchNIF(NIF);
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean hasTrot() {
-		return trot != null;
+	public boolean hasTrot(String idTrot) {
+		return ItT.searchTrot(idTrot);
 	}
 
 	/**

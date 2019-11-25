@@ -18,6 +18,17 @@ public class IteradorTrot {
 		return count < array1.length;
 	}
 	
+	public boolean searchTrot(String idTrot) {
+		int i;
+		boolean value = false;
+		for (i = 0; i < count; i++) {
+			if (array1[i] != null && array1[i].getIdTrot().equals(idTrot)) {
+				value = true;
+			}
+		}
+		return value;
+	}
+	
 	private void resize() {
 		if (count > array1.length) {
 			Trot[] array2 = new Trot[FACTOR * array1.length];

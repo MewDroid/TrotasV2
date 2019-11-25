@@ -18,6 +18,17 @@ public class IteradorCliente {
 		return count < array1.length;
 	}
 	
+    public boolean searchNIF(String NIF) {
+        int i;
+        boolean value = false;
+        for(i = 0; i < count; i++) {
+            if (array1[i] != null && array1[i].getNome().equals(NIF)) {
+            	value = true;
+            }
+        }
+        return value;
+    }
+	
 	private void resize() {
 		if (count > array1.length) {
 			Cliente[] array2 = new Cliente[FACTOR * array1.length];
