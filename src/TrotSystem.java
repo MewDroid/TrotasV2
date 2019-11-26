@@ -90,7 +90,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void alugarTrot(String NIF,String idTrot) {
-		setTrotDeUtilizador(NIF,idTrot);
+		ItC.setTrot(NIF,ItT.getTrot(ItT.searchTrot(idTrot)));
 	}
 
 	/**
@@ -100,9 +100,9 @@ public class TrotSystem {
 	 * @param minutos
 	 * @return
 	 */
-	public void libertarTrot(int minutos) {
+	public void libertarTrot(String idTrot,int minutos) {
 
-		adicionarSaldo(-CUSTO_DE_ALUGUER);
+		ItC.mudarSaldo(ItT.getCliente(idTrot),-CUSTO_DE_ALUGUER);
 		alugueres++;
 		incrementarAlugueresCliente();
 		mudarTotalMinutosCliente(minutos);
@@ -256,13 +256,6 @@ public class TrotSystem {
 	 */
 	public Trot getTrotDeUtilizador(String NIF) {
 		return cliente.getTrot();
-	}
-
-	/**
-	 * 
-	 */
-	public void setTrotDeUtilizador() {
-		cliente.setTrot(trot);
 	}
 
 	/**

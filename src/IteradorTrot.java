@@ -34,7 +34,18 @@ public class IteradorTrot {
 		count++;
 	}
 
-
+	public int searchTrot(String idTrot) {
+        int i;
+        int trt = -1;
+        for (i = 0; i < count; i++) {
+            if (trts[i].getIdTrot().equalsIgnoreCase(idTrot)) {
+                trt = i;
+                break;
+            }
+        }
+        return trt;
+    }
+	
 	public boolean hasTrot(String NIF) {
 	        int i;
 	        boolean value = false;
@@ -45,5 +56,9 @@ public class IteradorTrot {
 	        }
 	        return value;
 	    }
+
+	public Cliente getCliente(String idTrot) {
+		return trts[searchTrot(idTrot)].getUtilizador();
+	}
 	
 }

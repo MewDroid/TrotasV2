@@ -40,14 +40,26 @@ public class IteradorCliente {
 	
 	public int searchCliente(String NIF) {
         int i;
-        int cl = -1;
+        int id = -1;
         for (i = 0; i < count; i++) {
             if (cls[i].getNIF().equals(NIF)) {
-                cl = i;
+                id = i;
                 break;
             }
         }
-        return cl;
+        return id;
+    }
+	
+	public int searchCliente(Cliente cl) {
+        int i;
+        int id = -1;
+        for (i = 0; i < count; i++) {
+            if (cls[i].getNIF().equals(cl.getNIF())) {
+                id = i;
+                break;
+            }
+        }
+        return id;
     }
 	
 	public Cliente[] getDevedores() {
@@ -77,6 +89,18 @@ public class IteradorCliente {
 				cls[i] = t;
 			}
 		}
+	}
+
+	public void mudarSaldo(String NIF, int valorCentimos) {
+		cls[searchCliente(NIF)].mudarSaldo(valorCentimos);
+	}
+	
+	public void mudarSaldo(Cliente cl, int valorCentimos) {
+		cls[searchCliente(cl)].mudarSaldo(valorCentimos);
+	}
+
+	public void setTrot(String NIF, Trot trot) {
+		cls[searchCliente(NIF)].setTrot(trot);		
 	}
 
 	
