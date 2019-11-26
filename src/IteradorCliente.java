@@ -34,6 +34,22 @@ public class IteradorCliente {
 		count++;
 	}
 
+	public void remove(String NIF) {
+		cls[searchCliente(NIF)] = null;
+	}
+	
+	public int searchCliente(String NIF) {
+        int i;
+        int cl = -1;
+        for (i = 0; i < count; i++) {
+            if (cls[i].getNIF().equals(NIF)) {
+                cl = i;
+                break;
+            }
+        }
+        return cl;
+    }
+	
 	public Cliente[] getDevedores() {
 		Cliente[] cl = new Cliente[cls.length];
 		boolean[] used = new boolean[cls.length];
@@ -50,8 +66,18 @@ public class IteradorCliente {
 		}
 		
 		
-		return null;
+		return cl;
 	}
 	
+	public void sort() {
+		for (int i = 0; i<count; i++) {
+			if (cls[i].getNIF().compareToIgnoreCase(cls[i+1].getNIF()) > 0) {
+				Cliente t = cls[i+1];
+				cls[i+1] = cls[i];
+				cls[i] = t;
+			}
+		}
+	}
 
+	
 }

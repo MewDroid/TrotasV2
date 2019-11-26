@@ -34,6 +34,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("1".compareTo("2"));
 		String cmd = "";
 		TrotSystem sys = new TrotSystem();
 		Scanner in = new Scanner(System.in);
@@ -456,7 +457,7 @@ public class Main {
 	 * @param sys
 	 */
 	public static void listarClientes(TrotSystem sys) {
-	sys.sortClienteNIF();
+		sys.sortClienteNIF();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
 			String NIF = sys.getNIF(i);
 			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)

@@ -6,10 +6,6 @@ public class TrotSystem {
 	public static final int TEMPO_LIMITE = 60;
 	public static final int INTERVALOS_DE_PENALIZACAO = 30;
 
-	// Clientes e Trotinetes.
-	private Cliente cliente;
-	private Trot trot;
-
 	// Iteradores
 	private IteradorCliente ItC;
 	private IteradorTrot ItT;
@@ -47,7 +43,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void adicionarCliente(String NIF, String email, String telefone, String nome) {
-		cliente = new Cliente(NIF, email, telefone, nome);
+		ItC.append(new Cliente(NIF, email, telefone, nome));
 
 	}
 
@@ -59,7 +55,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void removerCliente(String NIF) {
-		cliente = null;
+		ItC.remove(NIF);
 
 	}
 
@@ -71,7 +67,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void adicionarTrot(String idTrot, String matricula) {
-		trot = new Trot(idTrot, matricula);
+		ItT.append(new Trot(idTrot, matricula));
 
 	}
 
@@ -82,8 +78,8 @@ public class TrotSystem {
 	 * @param valorCentimos
 	 * @return
 	 */
-	public void adicionarSaldo(int valorCentimos) {
-		cliente.mudarSaldo(valorCentimos);
+	public void adicionarSaldo(String NIF,int valorCentimos) {
+		ItC.mudarSaldo(NIF,valorCentimos);
 	}
 
 	/**
@@ -93,13 +89,8 @@ public class TrotSystem {
 	 * @param idTrot
 	 * @return
 	 */
-	public void alugarTrot() {
-		trotBackup = new Trot(trot);
-		clienteBackup = new Cliente(cliente);
-		bAlugueres = alugueres;
-		bAtrasos = atrasos;
-		bTotalCentimos = totalCentimos;
-		setTrotDeUtilizador(trot);
+	public void alugarTrot(String NIF,String idTrot) {
+		setTrotDeUtilizador(NIF,idTrot);
 	}
 
 	/**
@@ -260,9 +251,10 @@ public class TrotSystem {
 	}
 
 	/**
+	 * @param NIF 
 	 * @return
 	 */
-	public Trot getTrotDeUtilizador() {
+	public Trot getTrotDeUtilizador(String NIF) {
 		return cliente.getTrot();
 	}
 
@@ -305,7 +297,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean hasCliente(String NIF) {
-		return ItC.searchNIF(NIF);
+		return ItC.searchCliente(NIF) != -1;
 	}
 
 	/**
@@ -453,5 +445,10 @@ public class TrotSystem {
 
 	public Cliente[] getDevedores() {
 		return ItC.getDevedores();
+	}
+
+	public void sortClienteNIF() {
+		ItC.sort();
+		
 	}
 }
