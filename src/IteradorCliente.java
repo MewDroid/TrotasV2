@@ -34,15 +34,15 @@ public class IteradorCliente {
 		count++;
 	}
 
-	public void remove(String NIF) {
-		cls[searchCliente(NIF)] = null;
+	public void remove(String nif) {
+		cls[searchCliente(nif)] = null;
 	}
 
-	public int searchCliente(String NIF) {
+	public int searchCliente(String nif) {
 		int i;
 		int id = -1;
 		for (i = 0; i < count; i++) {
-			if (cls[i].getNIF().equals(NIF)) {
+			if (cls[i].getnif().equals(nif)) {
 				id = i;
 				break;
 			}
@@ -54,7 +54,7 @@ public class IteradorCliente {
 		int i;
 		int id = -1;
 		for (i = 0; i < count; i++) {
-			if (cls[i].getNIF().equals(cl.getNIF())) {
+			if (cls[i].getnif().equals(cl.getnif())) {
 				id = i;
 				break;
 			}
@@ -82,7 +82,7 @@ public class IteradorCliente {
 
 	public void sort() {
 		for (int i = 0; i < count; i++) {
-			if (cls[i].getNIF().compareToIgnoreCase(cls[i + 1].getNIF()) > 0) {
+			if (cls[i].getnif().compareToIgnoreCase(cls[i + 1].getnif()) > 0) {
 				Cliente t = cls[i + 1];
 				cls[i + 1] = cls[i];
 				cls[i] = t;
@@ -90,33 +90,33 @@ public class IteradorCliente {
 		}
 	}
 
-	public void mudarSaldo(String NIF, int valorCentimos) {
-		cls[searchCliente(NIF)].mudarSaldo(valorCentimos);
+	public void mudarSaldo(String nif, int valorCentimos) {
+		cls[searchCliente(nif)].mudarSaldo(valorCentimos);
 	}
 
 	public void mudarSaldo(Cliente cl, int valorCentimos) {
 		cls[searchCliente(cl)].mudarSaldo(valorCentimos);
 	}
 
-	public void setTrot(String NIF, Trot trot) {
-		cls[searchCliente(NIF)].setTrot(trot);
+	public void setTrot(String nif, Trot trot) {
+		cls[searchCliente(nif)].setTrot(trot);
 	}
 
-	public String getEmail(String NIF) {
-		return cls[searchCliente(NIF)].getEmail();
+	public String getEmail(String nif) {
+		return cls[searchCliente(nif)].getEmail();
 	}
 
-	public String getTelefone(String NIF) {
-		return cls[searchCliente(NIF)].getTelefone();
+	public String getTelefone(String nif) {
+		return cls[searchCliente(nif)].getTelefone();
 	}
 
-	public String getNome(String NIF) {
-		return cls[searchCliente(NIF)].getNome();
+	public String getNome(String nif) {
+		return cls[searchCliente(nif)].getNome();
 
 	}
 
-	public int getSaldo(String NIF) {
-		return cls[searchCliente(NIF)].getSaldo();
+	public int getSaldo(String nif) {
+		return cls[searchCliente(nif)].getSaldo();
 
 	}
 

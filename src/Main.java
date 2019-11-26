@@ -83,7 +83,7 @@ public class Main {
 	 * @param cmd
 	 */
 	private static void processCommand(TrotSystem sys, Scanner in, String cmd) {
-		String NIF;
+		String nif;
 		String email;
 		String telefone;
 		String nome;
@@ -93,16 +93,16 @@ public class Main {
 		int minutos;
 		switch (cmd.toUpperCase()) {
 		case ADICIONAR_CLIENTE:
-			NIF = readString(in);
+			nif = readString(in);
 			email = readString(in);
 			telefone = readString(in);
 			nome = readName(in).trim();
-			adicionarCliente(NIF, email, telefone, nome, sys);
+			adicionarCliente(nif, email, telefone, nome, sys);
 			break;
 		case REMOVER_CLIENTE:
-			NIF = readString(in);
+			nif = readString(in);
 			in.nextLine();
-			removerCliente(NIF, sys);
+			removerCliente(nif, sys);
 			break;
 		case ADICIONAR_TROT:
 			idTrot = readString(in);
@@ -111,14 +111,14 @@ public class Main {
 			adicionarTrot(idTrot, matricula, sys);
 			break;
 		case DADOS_CLIENTE:
-			NIF = readString(in);
+			nif = readString(in);
 			in.nextLine();
-			dadosDeUtilizador(NIF, sys);
+			dadosDeUtilizador(nif, sys);
 			break;
 		case INFORMACAO_TROT:
-			NIF = readString(in);
+			nif = readString(in);
 			in.nextLine();
-			trotDeUtilizador(NIF, sys);
+			trotDeUtilizador(nif, sys);
 			break;
 		case DADOS_TROT:
 			idTrot = readString(in);
@@ -131,16 +131,16 @@ public class Main {
 			utilizadorDeTrot(idTrot, sys);
 			break;
 		case ADICIONAR_SALDO:
-			NIF = readString(in);
+			nif = readString(in);
 			valorCentimos = readInt(in);
 			in.nextLine();
-			adicionarSaldo(NIF, valorCentimos, sys);
+			adicionarSaldo(nif, valorCentimos, sys);
 			break;
 		case ALUGAR:
-			NIF = readString(in);
+			nif = readString(in);
 			idTrot = readString(in);
 			in.nextLine();
-			alugarTrot(NIF, idTrot, sys);
+			alugarTrot(nif, idTrot, sys);
 			break;
 		case LIBERTAR:
 			idTrot = readString(in);
@@ -178,16 +178,16 @@ public class Main {
 	/**
 	 * Adiciona um novo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param email
 	 * @param telefone
 	 * @param nome
 	 * @param sys
 	 */
-	public static void adicionarCliente(String NIF, String email, String telefone, String nome, TrotSystem sys) {
+	public static void adicionarCliente(String nif, String email, String telefone, String nome, TrotSystem sys) {
 
-		if (!sys.hasCliente(NIF)) {
-			sys.adicionarCliente(NIF, email, telefone, nome);
+		if (!sys.hasCliente(nif)) {
+			sys.adicionarCliente(nif, email, telefone, nome);
 			System.out.println(SUCESSOS[0]);
 		} else {
 			System.out.println(ERROS[0]);
@@ -198,13 +198,13 @@ public class Main {
 	/**
 	 * Remove um cliente existente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param sys
 	 */
-	public static void removerCliente(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			if (sys.getTrotDeUtilizador(NIF) == null) {
-				sys.removerCliente(NIF);
+	public static void removerCliente(String nif, TrotSystem sys) {
+		if (sys.hasCliente(nif)) {
+			if (sys.getTrotDeUtilizador(nif) == null) {
+				sys.removerCliente(nif);
 				System.out.println(SUCESSOS[1]);
 			} else {
 				System.out.println(ERROS[2]);
@@ -236,15 +236,15 @@ public class Main {
 	/**
 	 * Carrega o saldo do cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param valorCentimos
 	 * @param sys
 	 */
-	public static void adicionarSaldo(String NIF, int valorCentimos, TrotSystem sys) {
+	public static void adicionarSaldo(String nif, int valorCentimos, TrotSystem sys) {
 
 		if (valorCentimos > 0) {
-			if (sys.hasCliente(NIF)) {
-				sys.adicionarSaldo(NIF, valorCentimos);
+			if (sys.hasCliente(nif)) {
+				sys.adicionarSaldo(nif, valorCentimos);
 				System.out.println(SUCESSOS[3]);
 			} else {
 				System.out.println(ERROS[1]);
@@ -258,16 +258,16 @@ public class Main {
 	/**
 	 * Aluga uma trotinete.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param idTrot
 	 * @param sys
 	 */
-	public static void alugarTrot(String NIF, String idTrot, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
+	public static void alugarTrot(String nif, String idTrot, TrotSystem sys) {
+		if (sys.hasCliente(nif)) {
 			if (sys.hasTrot(idTrot)) {
 				if (sys.trotIsLivre(idTrot) && !sys.isInativa(idTrot)) {
-					if (sys.getSaldo(NIF) >= TrotSystem.CUSTO_DE_ALUGUER) {
-						sys.alugarTrot(NIF, idTrot);
+					if (sys.getSaldo(nif) >= TrotSystem.CUSTO_DE_ALUGUER) {
+						sys.alugarTrot(nif, idTrot);
 						System.out.println(SUCESSOS[4]);
 					} else {
 						System.out.println(ERROS[4]);
@@ -366,15 +366,15 @@ public class Main {
 	/**
 	 * Mostra os dados de um utilizador.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param sys
 	 */
-	public static void dadosDeUtilizador(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
-					+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
-					+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
-					+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
+	public static void dadosDeUtilizador(String nif, TrotSystem sys) {
+		if (sys.hasCliente(nif)) {
+			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+					+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
+					+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
+					+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
 		} else {
 			System.out.println(ERROS[1]);
 		}
@@ -384,14 +384,14 @@ public class Main {
 	/**
 	 * Ver trotinete que esta em uso pelo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @return
 	 */
 
-	public static void trotDeUtilizador(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			if (sys.clienteHasTrot(NIF)) {
-				System.out.println(sys.getId(NIF) + ", " + sys.getMatricula(sys.getId(NIF)));
+	public static void trotDeUtilizador(String nif, TrotSystem sys) {
+		if (sys.hasCliente(nif)) {
+			if (sys.clienteHasTrot(nif)) {
+				System.out.println(sys.getId(nif) + ", " + sys.getMatricula(sys.getId(nif)));
 			} else {
 				System.out.println(ERROS[3]);
 			}
@@ -430,7 +430,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.trotHasCliente(idTrot)) {
-				System.out.println(sys.getNIF(idTrot) + ", " + sys.getNome(sys.getNIF(idTrot)));
+				System.out.println(sys.getnif(idTrot) + ", " + sys.getNome(sys.getnif(idTrot)));
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -457,13 +457,13 @@ public class Main {
 	 * @param sys
 	 */
 	public static void listarClientes(TrotSystem sys) {
-		sys.sortClienteNIF();
+		sys.sortClientenif();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
-			String NIF = sys.getNIF(i);
-			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
-			+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
-			+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
-			+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
+			String nif = sys.getnif(i);
+			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+			+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
+			+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
+			+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
 		}
 	}
 	
@@ -473,7 +473,7 @@ public class Main {
 	public static void listarDevedores(TrotSystem sys) {
 		Cliente[] cl = sys.getDevedores();
 		for (int i = 0; i < cl.length ; i++) {
-			System.out.println(cl[i].getNome() + ": " + cl[i].getNIF() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
+			System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
 			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
 			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
 			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());

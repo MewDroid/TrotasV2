@@ -46,11 +46,11 @@ public class IteradorTrot {
         return trt;
     }
 	
-	public boolean hasTrot(String NIF) {
+	public boolean hasTrot(String nif) {
 	        int i;
 	        boolean value = false;
 	        for(i = 0; i < count; i++) {
-	            if (trts[i] != null && trts[i].getIdTrot().equals(NIF)) {
+	            if (trts[i] != null && trts[i].getIdTrot().equals(nif)) {
 	            	value = true;
 	            }
 	        }

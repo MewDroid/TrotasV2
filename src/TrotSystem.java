@@ -36,26 +36,26 @@ public class TrotSystem {
 	/**
 	 * Criacao de um novo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param email
 	 * @param telefone
 	 * @param nome
 	 * @return
 	 */
-	public void adicionarCliente(String NIF, String email, String telefone, String nome) {
-		ItC.append(new Cliente(NIF, email, telefone, nome));
+	public void adicionarCliente(String nif, String email, String telefone, String nome) {
+		ItC.append(new Cliente(nif, email, telefone, nome));
 
 	}
 
 	/**
 	 * Remover um cliente existente.
-	 * @param NIF 
+	 * @param nif 
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @return
 	 */
-	public void removerCliente(String NIF) {
-		ItC.remove(NIF);
+	public void removerCliente(String nif) {
+		ItC.remove(nif);
 
 	}
 
@@ -74,23 +74,23 @@ public class TrotSystem {
 	/**
 	 * Carregamento de saldo pelo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param valorCentimos
 	 * @return
 	 */
-	public void adicionarSaldo(String NIF,int valorCentimos) {
-		ItC.mudarSaldo(NIF,valorCentimos);
+	public void adicionarSaldo(String nif,int valorCentimos) {
+		ItC.mudarSaldo(nif,valorCentimos);
 	}
 
 	/**
 	 * Alugar trotinete.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param idTrot
 	 * @return
 	 */
-	public void alugarTrot(String NIF,String idTrot) {
-		ItC.setTrot(NIF,ItT.getTrot(ItT.searchTrot(idTrot)));
+	public void alugarTrot(String nif,String idTrot) {
+		ItC.setTrot(nif,ItT.getTrot(ItT.searchTrot(idTrot)));
 	}
 
 	/**
@@ -160,29 +160,29 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public String getEmail(String NIF) {
-		return ItC.getEmail(NIF);
+	public String getEmail(String nif) {
+		return ItC.getEmail(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getTelefone(String NIF) {
-		return ItC.getTelefone(NIF);
+	public String getTelefone(String nif) {
+		return ItC.getTelefone(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getNome(String NIF) {
-		return ItC.getNome(NIF);
+	public String getNome(String nif) {
+		return ItC.getNome(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public int getSaldo(String NIF) {
-		return ItC.getSaldo(NIF);
+	public int getSaldo(String nif) {
+		return ItC.getSaldo(nif);
 	}
 
 
@@ -222,10 +222,10 @@ public class TrotSystem {
 	}
 
 	/**
-	 * @param NIF 
+	 * @param nif 
 	 * @return
 	 */
-	public Trot getTrotDeUtilizador(String NIF) {
+	public Trot getTrotDeUtilizador(String nif) {
 		return cliente.getTrot();
 	}
 
@@ -261,8 +261,8 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean hasCliente(String NIF) {
-		return ItC.searchCliente(NIF) != -1;
+	public boolean hasCliente(String nif) {
+		return ItC.searchCliente(nif) != -1;
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class TrotSystem {
 		return ItC.getDevedores();
 	}
 
-	public void sortClienteNIF() {
+	public void sortClienteNif() {
 		ItC.sort();
 		
 	}
