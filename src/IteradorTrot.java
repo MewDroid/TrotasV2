@@ -60,9 +60,49 @@ public class IteradorTrot {
 	public Cliente getCliente(String idTrot) {
 		return trts[searchTrot(idTrot)].getUtilizador();
 	}
+	
+	public Cliente getUtilizador(String idTrot) {
+		return trts[searchTrot(idTrot)].getUtilizador();
+	}
+	
+	public String getMatricula(String idTrot) {
+		return trts[searchTrot(idTrot)].getMatricula();
+	}
 
-	public void setInativa(String idTrot, boolean inativa) {
-		trts[searchTrot(idTrot)].setInativa(inativa);
+	public void setInativa(String idTrot, boolean i) {
+		trts[searchTrot(idTrot)].setInativa(i);
+	}
+	
+	public void setCliente(String idTrot, Cliente cliente) {
+		trts[searchTrot(idTrot)].setCliente(cliente);
+	}
+	
+	public boolean isInativa(String idTrot) {
+		return trts[searchTrot(idTrot)].isInativa();
+	}
+	
+	public boolean livre(String idTrot) {
+		return trts[searchTrot(idTrot)].livre();
+	}
+	
+	public void incrementarAlugueres(String idTrot) {
+		trts[searchTrot(idTrot)].incrementarAlugueres();
+	}
+	
+	public void mudarTotalMinutos(String idTrot, int amount) {
+		trts[searchTrot(idTrot)].mudarTotalMinutos(amount);
+	}
+	
+	public String estado(String idTrot) {
+		return trts[searchTrot(idTrot)].estado();
+	}
+	
+	public int getAlugueres(String idTrot) {
+		return trts[searchTrot(idTrot)].getAlugueres();
+	}
+	
+	public int getTotalMinutos(String idTrot) {
+		return trts[searchTrot(idTrot)].getTotalMinutos();
 	}
 	
 }

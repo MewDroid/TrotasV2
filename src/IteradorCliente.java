@@ -97,9 +97,33 @@ public class IteradorCliente {
 	public void mudarSaldo(Cliente cl, int valorCentimos) {
 		cls[searchCliente(cl)].mudarSaldo(valorCentimos);
 	}
-
+	
+//	public void mudarTotalMinutos(Cliente cl, int minutos) {
+//		cls[searchCliente(cl)].mudarTotalMinutos(minutos);
+//	}
+	
+	public void mudarTotalMinutos(String nif, int minutos) {
+		cls[searchCliente(nif)].mudarTotalMinutos(minutos);
+	}
+	
 	public void setTrot(String nif, Trot trot) {
 		cls[searchCliente(nif)].setTrot(trot);
+	}
+	
+	public void incrementarAlugueres(String nif) {
+		cls[searchCliente(nif)].incrementarAlugueres();
+	}
+	
+	public Trot getTrot(String nif) {
+		return cls[searchCliente(nif)].getTrot();
+	}
+	
+	public int getTotalMinutos(String nif) {
+		return cls[searchCliente(nif)].getTotalMinutos();
+	}
+	
+	public int getAlugueres(String nif) {
+		return cls[searchCliente(nif)].getAlugueres();
 	}
 
 	public String getEmail(String nif) {
@@ -118,6 +142,30 @@ public class IteradorCliente {
 	public int getSaldo(String nif) {
 		return cls[searchCliente(nif)].getSaldo();
 
+	}
+	
+	public void setMaxMinutos(String nif, int amount) {
+		cls[searchCliente(nif)].setMaxMinutos(amount);
+	}
+	
+	public void mudarTotalCentimos(String nif, int amount) {
+		cls[searchCliente(nif)].mudarTotalCentimos(amount);
+	}
+	
+	public int getTotalCentimos(String nif) {
+		return cls[searchCliente(nif)].getTotalCentimos();
+	}
+	
+	public int getMaxMinutos(String nif) {
+		return cls[searchCliente(nif)].getMaxMinutos();
+	}
+	
+	public int getMedMinutos(String nif) {
+		return cls[searchCliente(nif)].getMedMinutos();
+	}
+	
+	public String getNif(int id) {
+		return cls[id].getnif();
 	}
 
 }
