@@ -411,7 +411,7 @@ public class Main {
 	public static void dadosTrot(String idTrot, TrotSystem sys) {
 
 		if (sys.hasTrot(idTrot)) {
-			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(itTrot) + ", "
+			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(idTrot) + ", "
 					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
 		} else {
 			System.out.println(ERROS[7]);
@@ -430,7 +430,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.trotHasCliente(idTrot)) {
-				System.out.println(sys.getnif(idTrot) + ", " + sys.getNome(sys.getnif(idTrot)));
+				System.out.println(sys.getNif(idTrot) + ", " + sys.getNome(sys.getNif(idTrot)));
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -448,7 +448,7 @@ public class Main {
 	public static void listarTrotinetes(TrotSystem sys) {
 		for (int i = 0; i < sys.numeroTrots(); i++) {
 			String idTrot = sys.getId(i);
-			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(itTrot) + ", "
+			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(idTrot) + ", "
 					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
 		}
 	}
@@ -457,9 +457,9 @@ public class Main {
 	 * @param sys
 	 */
 	public static void listarClientes(TrotSystem sys) {
-		sys.sortClientenif();
+		sys.sortClienteNif();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
-			String nif = sys.getnif(i);
+			String nif = sys.getNif(i);
 			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
 			+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 			+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "

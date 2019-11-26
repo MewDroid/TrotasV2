@@ -118,26 +118,15 @@ public class TrotSystem {
 	}
 
 	/**
-	 * Desativar trotinete, depois desta acao nao poderao ser feitos alugamentos ate
-	 * revertida.
+	 * 
 	 * 
 	 * @param idTrot
 	 * @return
 	 */
-	public void desativarTrot(String idTrot) {
-		itt.setInativa(idTrot,true);
+	public void setInativa(String idTrot,boolean i) {
+		itt.setInativa(idTrot,i);
 	}
 
-	/**
-	 * Reativacao da trotinete.
-	 * 
-	 * @param idTrot
-	 * @return
-	 */
-	public void reactivatTrot(String idTrot) {
-		itt.setInativa(idTrot,false);
-
-	}
 
 	// Segue-se um conjunto de SetGets.
 
@@ -234,7 +223,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean isInativa(String idTrot) {
-		return itc.isInativa(idTrot);
+		return itt.isInativa(idTrot);
 	}
 
 	/**
@@ -348,7 +337,7 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean trotHasCliente(idTrot) {
+	public boolean trotHasCliente(String idTrot) {
 		return itt.getCliente(idTrot) != -1;
 	}
 
@@ -381,4 +370,31 @@ public class TrotSystem {
 		itc.sort();
 		
 	}
+
+	public int numeroClientes() {
+		return itc.getCount();
+	}
+	
+	public String getNif(int i) {
+		return itc.getNif(i);
+	}
+
+	public String getNif(String idTrot) {
+		return itt.getCliente(idTrot).getNif();
+	}
+	
+	public int numeroTrots() {
+		return itt.getCount();
+	}
+
+	public String getId(int i) {
+		return itt.getId(i);
+	}
+
+	public String getId(String nif) {
+		
+		return itc.getTrot(nif).getId();
+	}
+
+	
 }
