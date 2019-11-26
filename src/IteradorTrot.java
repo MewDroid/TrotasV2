@@ -60,5 +60,9 @@ public class IteradorTrot {
 	public Cliente getCliente(String idTrot) {
 		return trts[searchTrot(idTrot)].getUtilizador();
 	}
+
+	public void setInativa(String idTrot, boolean inativa) {
+		trts[searchTrot(idTrot)].setInativa(inativa);
+	}
 	
 }
