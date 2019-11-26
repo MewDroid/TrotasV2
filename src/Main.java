@@ -151,6 +151,11 @@ public class Main {
 			in.nextLine();
 			dadosSistema(sys);
 			break;
+		case PROMO:
+			NIF = in.next();
+			in.nextLine();
+			promo(NIF, sys);
+			break;
 		case DESATIVAR:
 			idTrot = readString(in);
 			in.nextLine();
@@ -201,9 +206,9 @@ public class Main {
 	 * @param sys
 	 */
 	public static void removerCliente(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			if (sys.getTrotDeUtilizador(NIF) == null) {
-				sys.removerCliente(NIF);
+		if (sys.hasCliente() && sys.getNIF().equalsIgnoreCase(NIF)) {
+			if (sys.getTrotDeUtilizador() == null) {
+				sys.removerCliente();
 				System.out.println(SUCESSOS[1]);
 			} else {
 				System.out.println(ERROS[2]);
@@ -223,7 +228,7 @@ public class Main {
 	 */
 	public static void adicionarTrot(String idTrot, String matricula, TrotSystem sys) {
 
-		if (!sys.hasTrot(idTrot)) {
+		if (!sys.hasTrot() || !sys.getId().equalsIgnoreCase(idTrot)) {
 			System.out.println(SUCESSOS[2]);
 			sys.adicionarTrot(idTrot, matricula);
 		} else {
@@ -242,8 +247,8 @@ public class Main {
 	public static void adicionarSaldo(String NIF, int valorCentimos, TrotSystem sys) {
 
 		if (valorCentimos > 0) {
-			if (sys.hasCliente(NIF)) {
-				sys.adicionarSaldo(NIF, valorCentimos);
+			if (sys.hasCliente() && sys.getNIF().equalsIgnoreCase(NIF)) {
+				sys.adicionarSaldo(valorCentimos);
 				System.out.println(SUCESSOS[3]);
 			} else {
 				System.out.println(ERROS[1]);
@@ -262,11 +267,11 @@ public class Main {
 	 * @param sys
 	 */
 	public static void alugarTrot(String NIF, String idTrot, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			if (sys.hasTrot(idTrot)) {
-				if (sys.trotIsLivre(idTrot) && !sys.isInativa(idTrot)) {
-					if (sys.getSaldo(NIF) >= TrotSystem.CUSTO_DE_ALUGUER) {
-						sys.alugarTrot(NIF, idTrot);
+		if (sys.hasCliente() && sys.getNIF().equalsIgnoreCase(NIF)) {
+			if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+				if (sys.trotIsLivre() && !sys.isInativa()) {
+					if (sys.getSaldo() >= TrotSystem.CUSTO_DE_ALUGUER) {
+						sys.alugarTrot();
 						System.out.println(SUCESSOS[4]);
 					} else {
 						System.out.println(ERROS[4]);
@@ -293,10 +298,10 @@ public class Main {
 	public static void libertarTrot(String idTrot, int minutos, TrotSystem sys) {
 
 		if (minutos > 0) {
-			if (sys.hasTrot(idTrot)) {
-				if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
+			if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+				if (sys.getUtilizadorDeTrot() != null && !sys.isInativa()) {
 					System.out.println(SUCESSOS[5]);
-					sys.libertarTrot(idTrot, minutos);
+					sys.libertarTrot(minutos);
 
 				} else {
 					System.out.println(ERROS[8]);
@@ -311,6 +316,31 @@ public class Main {
 	}
 
 	/**
+	 * Ativa uma promocao.
+	 * 
+	 * @param NIF
+	 * @param sys
+	 */
+	public static void promo(String NIF, TrotSystem sys) {
+
+		if (sys.hasCliente() && sys.getNIF().equalsIgnoreCase(NIF)) {
+			if (sys.getTrotDeUtilizador() == null) {
+				if (!sys.isPromoAplicada()) {
+					sys.promo();
+					System.out.println(SUCESSOS[7]);
+				} else {
+					System.out.println(ERROS[14]);
+				}
+			} else {
+				System.out.println(ERROS[5]);
+			}
+		} else {
+			System.out.println(ERROS[1]);
+		}
+
+	}
+
+	/**
 	 * Desativa uma trotinete, esta acao proibe o uso da mesma para alugar.
 	 * 
 	 * @param idTrot
@@ -318,10 +348,10 @@ public class Main {
 	 */
 	public static void desativarTrot(String idTrot, TrotSystem sys) {
 
-		if (sys.hasTrot(idTrot)) {
-			if (sys.getUtilizadorDeTrot(idTrot) == null) {
+		if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+			if (sys.getUtilizadorDeTrot() == null) {
 				System.out.println(SUCESSOS[8]);
-				sys.setInativa(idTrot, true);
+				sys.setInativa(true);
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -339,10 +369,10 @@ public class Main {
 	 */
 	public static void reactivatTrot(String idTrot, TrotSystem sys) {
 
-		if (sys.hasTrot(idTrot)) {
-			if (sys.isInativa(idTrot)) {
+		if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+			if (sys.isInativa()) {
 				System.out.println(SUCESSOS[9]);
-				sys.setInativa(idTrot, false);
+				sys.setInativa(false);
 			} else {
 				System.out.println(ERROS[12]);
 			}
@@ -369,11 +399,11 @@ public class Main {
 	 * @param sys
 	 */
 	public static void dadosDeUtilizador(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
-					+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
-					+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
-					+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
+		if (sys.hasCliente() && sys.getNIF().equalsIgnoreCase(NIF)) {
+			System.out.println(sys.getNome() + ": " + sys.getNIF() + ", " + sys.getEmail() + ", " + sys.getTelefone()
+					+ ", " + sys.getSaldo() + ", " + sys.getTotalMinutosCliente() + ", " + sys.getAlugueresCliente()
+					+ ", " + sys.getMaxMinutosCliente() + ", " + sys.getMedMinutosCliente() + ", "
+					+ sys.getTotalCentimosCliente());
 		} else {
 			System.out.println(ERROS[1]);
 		}
@@ -388,9 +418,9 @@ public class Main {
 	 */
 
 	public static void trotDeUtilizador(String NIF, TrotSystem sys) {
-		if (sys.hasCliente(NIF)) {
-			if (sys.clienteHasTrot(NIF)) {
-				System.out.println(sys.getId(NIF) + ", " + sys.getMatricula(sys.getId(NIF)));
+		if (sys.getNIF().equalsIgnoreCase(NIF)) {
+			if (sys.clienteHasTrot()) {
+				System.out.println(sys.getId() + ", " + sys.getMatricula());
 			} else {
 				System.out.println(ERROS[3]);
 			}
@@ -409,9 +439,9 @@ public class Main {
 
 	public static void dadosTrot(String idTrot, TrotSystem sys) {
 
-		if (sys.hasTrot(idTrot)) {
-			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(itTrot) + ", "
-					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
+		if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+			System.out.println(sys.getMatricula() + ": " + sys.estadoTrot() + ", " + sys.getAlugueresTrot() + ", "
+					+ sys.getTotalMinutosTrot());
 		} else {
 			System.out.println(ERROS[7]);
 		}
@@ -427,9 +457,9 @@ public class Main {
 
 	public static void utilizadorDeTrot(String idTrot, TrotSystem sys) {
 
-		if (sys.hasTrot(idTrot)) {
-			if (sys.trotHasCliente(idTrot)) {
-				System.out.println(sys.getNIF(idTrot) + ", " + sys.getNome(sys.getNIF(idTrot)));
+		if (sys.hasTrot() && sys.getId().equalsIgnoreCase(idTrot)) {
+			if (sys.trotHasCliente()) {
+				System.out.println(sys.getNIF() + ", " + sys.getNome());
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -437,45 +467,5 @@ public class Main {
 			System.out.println(ERROS[7]);
 		}
 
-	}
-
-	
-
-	/**
-	 * @param sys
-	 */
-	public static void listarTrotinetes(TrotSystem sys) {
-		for (int i = 0; i < sys.numeroTrots(); i++) {
-			String idTrot = sys.getId(i);
-			System.out.println(sys.getMatricula(idTrot) + ": " + sys.estadoTrot(itTrot) + ", "
-					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
-		}
-	}
-	
-	/**
-	 * @param sys
-	 */
-	public static void listarClientes(TrotSystem sys) {
-	sys.sortClienteNIF();
-		for (int i = 0; i < sys.numeroClientes(); i++) {
-			String NIF = sys.getNIF(i);
-			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
-			+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
-			+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
-			+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
-		}
-	}
-	
-	/**
-	 * @param sys
-	 */
-	public static void listarDevedores(TrotSystem sys) {
-		Cliente[] cl = sys.getDevedores();
-		for (int i = 0; i < cl.length ; i++) {
-			System.out.println(cl[i].getNome() + ": " + cl[i].getNIF() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
-			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
-			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
-			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());
-		}
 	}
 }
