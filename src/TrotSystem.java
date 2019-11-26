@@ -10,11 +10,6 @@ public class TrotSystem {
 	private IteradorCliente itc;
 	private IteradorTrot itt;
 	
-	// Backups.
-	private Cliente clienteBackup;
-	private Trot trotBackup;
-	private TrotSystem trotSystemBackup;
-
 	// Dados estatisticos.
 	private int alugueres;
 	private int totalCentimos;
