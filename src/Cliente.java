@@ -75,7 +75,7 @@ public class Cliente {
 	 * 
 	 * @return
 	 */
-	public String getnif() {
+	public String getNif() {
 		return nif;
 	}
 
