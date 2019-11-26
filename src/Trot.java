@@ -18,22 +18,7 @@ public class Trot {
 		inativa = false;
 	}
 
-	/**
-	 * Criacao e restauro de backups.
-	 * 
-	 * @param t
-	 */
-	public Trot(Trot t) {
-		if (t != null) {
-			idTrot = t.idTrot;
-			matricula = t.matricula;
-			alugada = t.alugada;
-			alugueres = t.alugueres;
-			totalMinutos = t.totalMinutos;
-			cliente = null;
-			inativa = t.inativa;
-		}
-	}
+
 
 	/**
 	 * Verificacao se existe cliente a usar.
@@ -41,13 +26,7 @@ public class Trot {
 	 * @return
 	 */
 	public boolean livre() {
-		boolean livre;
-		if (cliente == null) {
-			livre = true;
-		} else {
-			livre = false;
-		}
-		return livre;
+		return cliente == null;
 	}
 
 	/**
@@ -170,12 +149,7 @@ public class Trot {
 	 * @param utilizador
 	 */
 	public void setCliente(Cliente utilizador) {
-		if (utilizador != null) {
-			this.cliente = utilizador;
-		} else {
-			this.cliente = new Cliente(null);
-			this.cliente = null;
-		}
+		this.cliente = utilizador;
 	}
 
 	/**

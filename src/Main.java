@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -13,9 +14,11 @@ public class Main {
 	public static final String ALUGAR = "ALUGAR";
 	public static final String LIBERTAR = "LIBERTAR";
 	public static final String DADOS_SISTEMA = "ESTADOSISTEMA";
-	public static final String PROMO = "PROMOCAO";
 	public static final String DESATIVAR = "DESTROT";
 	public static final String REACTIVAR = "REACTROT";
+	public static final String LIST_TROT = "LISTTROT";
+	public static final String LIST_CL = "LISTCLIENTE";
+	public static final String LIST_DEV = "LISTDEV";
 	public static final String SAIR = "SAIR";
 
 	public static final String[] ERROS = { "Cliente existente.", "Cliente inexistente.", "Cliente em movimento.",
@@ -34,7 +37,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("1".compareTo("2"));
+		Locale.setDefault(Locale.US);
 		String cmd = "";
 		TrotSystem sys = new TrotSystem();
 		Scanner in = new Scanner(System.in);
@@ -162,7 +165,15 @@ public class Main {
 			in.nextLine();
 			reactivatTrot(idTrot, sys);
 			break;
-
+		case LIST_TROT:
+			listarTrotinetes(sys);
+			break;
+		case LIST_CL:
+			listarClientes(sys);
+			break;
+		case LIST_DEV:
+			listarDevedores(sys);
+			break;
 		case SAIR:
 			in.nextLine();
 			System.out.println(SUCESSOS[6]);
@@ -266,11 +277,15 @@ public class Main {
 		if (sys.hasCliente(nif)) {
 			if (sys.hasTrot(idTrot)) {
 				if (sys.trotIsLivre(idTrot) && !sys.isInativa(idTrot)) {
-					if (sys.getSaldo(nif) >= TrotSystem.CUSTO_DE_ALUGUER) {
-						sys.alugarTrot(nif, idTrot);
-						System.out.println(SUCESSOS[4]);
+					if (sys.getTrotDeUtilizador(nif) == null) {
+						if (sys.getSaldo(nif) >= TrotSystem.CUSTO_DE_ALUGUER) {
+							sys.alugarTrot(nif, idTrot);
+							System.out.println(SUCESSOS[4]);
+						} else {
+							System.out.println(ERROS[4]);
+						}
 					} else {
-						System.out.println(ERROS[4]);
+						System.out.println(ERROS[2]);
 					}
 				} else {
 					System.out.println(ERROS[9]);
@@ -371,7 +386,7 @@ public class Main {
 	 */
 	public static void dadosDeUtilizador(String nif, TrotSystem sys) {
 		if (sys.hasCliente(nif)) {
-			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
 					+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 					+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
 					+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
@@ -430,7 +445,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.trotHasCliente(idTrot)) {
-				System.out.println(sys.getNif(idTrot) + ", " + sys.getNome(sys.getNif(idTrot)));
+				System.out.println(sys.getNifInTrot(idTrot) + ", " + sys.getNome(sys.getNifInTrot(idTrot)));
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -460,7 +475,7 @@ public class Main {
 		sys.sortClienteNif();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
 			String nif = sys.getNif(i);
-			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
 			+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 			+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
 			+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
@@ -472,11 +487,13 @@ public class Main {
 	 */
 	public static void listarDevedores(TrotSystem sys) {
 		Cliente[] cl = sys.getDevedores();
-		for (int i = 0; i < cl.length ; i++) {
-			System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
+		for (int i = 0; i < sys.numeroClientes() ; i++) {
+			if (cl[i] != null)
+				System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
 			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
 			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
 			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());
 		}
 	}
+	
 }

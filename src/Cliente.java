@@ -28,25 +28,6 @@ public class Cliente {
 	}
 
 	/**
-	 * Criacao e restauro de backups.
-	 * 
-	 * @param c
-	 */
-	public Cliente(Cliente c) {
-		if (c != null) {
-			nif = c.nif;
-			email = c.email;
-			telefone = c.telefone;
-			nome = c.nome;
-			saldo = c.saldo;
-			totalMinutos = c.totalMinutos;
-			alugueres = c.alugueres;
-			maxMinutos = c.maxMinutos;
-			totalCentimos = c.totalCentimos;
-		}
-	}
-
-	/**
 	 * Devolve a trotinete em uso por este cliente.
 	 * 
 	 * @return
@@ -64,9 +45,6 @@ public class Cliente {
 		if (trot != null) {
 			this.trot = trot;
 			trot.setCliente(this);
-		} else {
-			this.trot = new Trot(null);
-			this.trot = null;
 		}
 	}
 

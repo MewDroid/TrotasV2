@@ -19,6 +19,8 @@ public class TrotSystem {
 	 * Construtor do sistema.
 	 */
 	public TrotSystem() {
+		itc = new IteradorCliente();
+		itt = new IteradorTrot();
 		alugueres = 0;
 		totalCentimos = 0;
 		atrasos = 0;
@@ -105,7 +107,8 @@ public class TrotSystem {
 		itc.mudarTotalCentimos(nif,CUSTO_DE_ALUGUER);
 		itc.setMaxMinutos(nif,minutos);
 		int tempoExtra = minutos - TEMPO_LIMITE;
-		atrasos += tempoExtra;
+		if (tempoExtra >0)
+			atrasos += tempoExtra;
 		while (tempoExtra > 0) {
 
 			itc.mudarSaldo(nif,-PENALIZACAO);
@@ -129,13 +132,6 @@ public class TrotSystem {
 
 
 	// Segue-se um conjunto de SetGets.
-
-	/**
-	 * @return
-	 */
-	public TrotSystem getTrotSystemBackup() {
-		return trotSystemBackup;
-	}
 
 	/**
 	 * @return
@@ -268,13 +264,6 @@ public class TrotSystem {
 		return atrasos;
 	}
 
-	/**
-	 * @param c
-	 */
-	private void setUtilizadorDeTrot(String idTrot,Cliente c) {
-		itt.setCliente(idTrot,c);
-
-	}
 
 	/**
 	 * @param t
@@ -331,14 +320,14 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean clienteHasTrot(String nif) {
-		return itc.getTrot(nif) != -1;
+		return itc.getTrot(nif) != null;
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean trotHasCliente(String idTrot) {
-		return itt.getCliente(idTrot) != -1;
+		return itt.getCliente(idTrot) != null;
 	}
 
 	/**
@@ -379,7 +368,11 @@ public class TrotSystem {
 		return itc.getNif(i);
 	}
 
-	public String getNif(String idTrot) {
+	public String getNif(String nif) {
+		return itc.getNif(nif);
+	}
+	
+	public String getNifInTrot(String idTrot) {
 		return itt.getCliente(idTrot).getNif();
 	}
 	
@@ -393,7 +386,7 @@ public class TrotSystem {
 
 	public String getId(String nif) {
 		
-		return itc.getTrot(nif).getId();
+		return itc.getTrot(nif).getIdTrot();
 	}
 
 	
