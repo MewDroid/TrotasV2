@@ -46,11 +46,11 @@ public class IteradorTrot {
         return trt;
     }
 	
-	public boolean hasTrot(String NIF) {
+	public boolean hasTrot(String nif) {
 	        int i;
 	        boolean value = false;
 	        for(i = 0; i < count; i++) {
-	            if (trts[i] != null && trts[i].getIdTrot().equals(NIF)) {
+	            if (trts[i] != null && trts[i].getIdTrot().equals(nif)) {
 	            	value = true;
 	            }
 	        }
@@ -59,6 +59,10 @@ public class IteradorTrot {
 
 	public Cliente getCliente(String idTrot) {
 		return trts[searchTrot(idTrot)].getUtilizador();
+	}
+
+	public void setInativa(String idTrot, boolean inativa) {
+		trts[searchTrot(idTrot)].setInativa(inativa);
 	}
 	
 }

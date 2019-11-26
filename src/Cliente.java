@@ -1,6 +1,6 @@
 
 public class Cliente {
-	private String NIF, email, telefone, nome;
+	private String nif, email, telefone, nome;
 	private int saldo, totalMinutos, alugueres, maxMinutos, totalCentimos;
 	private boolean promocaoAplicada;
 
@@ -9,13 +9,13 @@ public class Cliente {
 	/**
 	 * Inicializacao do nosso cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param email
 	 * @param telefone
 	 * @param nome
 	 */
-	public Cliente(String NIF, String email, String telefone, String nome) {
-		this.NIF = NIF;
+	public Cliente(String nif, String email, String telefone, String nome) {
+		this.nif = nif;
 		this.email = email;
 		this.telefone = telefone;
 		this.nome = nome;
@@ -34,7 +34,7 @@ public class Cliente {
 	 */
 	public Cliente(Cliente c) {
 		if (c != null) {
-			NIF = c.NIF;
+			nif = c.nif;
 			email = c.email;
 			telefone = c.telefone;
 			nome = c.nome;
@@ -71,12 +71,12 @@ public class Cliente {
 	}
 
 	/**
-	 * Devolve o NIF do cliente.
+	 * Devolve o nif do cliente.
 	 * 
 	 * @return
 	 */
-	public String getNIF() {
-		return NIF;
+	public String getnif() {
+		return nif;
 	}
 
 	/**

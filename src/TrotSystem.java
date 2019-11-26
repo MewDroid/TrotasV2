@@ -36,26 +36,26 @@ public class TrotSystem {
 	/**
 	 * Criacao de um novo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param email
 	 * @param telefone
 	 * @param nome
 	 * @return
 	 */
-	public void adicionarCliente(String NIF, String email, String telefone, String nome) {
-		ItC.append(new Cliente(NIF, email, telefone, nome));
+	public void adicionarCliente(String nif, String email, String telefone, String nome) {
+		ItC.append(new Cliente(nif, email, telefone, nome));
 
 	}
 
 	/**
 	 * Remover um cliente existente.
-	 * @param NIF 
+	 * @param nif 
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @return
 	 */
-	public void removerCliente(String NIF) {
-		ItC.remove(NIF);
+	public void removerCliente(String nif) {
+		ItC.remove(nif);
 
 	}
 
@@ -74,23 +74,23 @@ public class TrotSystem {
 	/**
 	 * Carregamento de saldo pelo cliente.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param valorCentimos
 	 * @return
 	 */
-	public void adicionarSaldo(String NIF,int valorCentimos) {
-		ItC.mudarSaldo(NIF,valorCentimos);
+	public void adicionarSaldo(String nif,int valorCentimos) {
+		ItC.mudarSaldo(nif,valorCentimos);
 	}
 
 	/**
 	 * Alugar trotinete.
 	 * 
-	 * @param NIF
+	 * @param nif
 	 * @param idTrot
 	 * @return
 	 */
-	public void alugarTrot(String NIF,String idTrot) {
-		ItC.setTrot(NIF,ItT.getTrot(ItT.searchTrot(idTrot)));
+	public void alugarTrot(String nif,String idTrot) {
+		ItC.setTrot(nif,ItT.getTrot(ItT.searchTrot(idTrot)));
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void libertarTrot(String idTrot,int minutos) {
-
-		ItC.mudarSaldo(ItT.getCliente(idTrot),-CUSTO_DE_ALUGUER);
+		Cliente cl = ItT.getCliente(idTrot);
+		ItC.mudarSaldo(cl,-CUSTO_DE_ALUGUER);
 		alugueres++;
 		incrementarAlugueresCliente();
 		mudarTotalMinutosCliente(minutos);
@@ -117,29 +117,13 @@ public class TrotSystem {
 		atrasos += tempoExtra;
 		while (tempoExtra > 0) {
 
-			adicionarSaldo(-PENALIZACAO);
+			ItC.mudarSaldo(cl,-PENALIZACAO);
 			totalCentimos += PENALIZACAO;
 			mudarTotalCentimosCliente(PENALIZACAO);
 			tempoExtra -= INTERVALOS_DE_PENALIZACAO;
 		}
 		setTrotDeUtilizador(null);
 		setUtilizadorDeTrot(null);
-	}
-
-	/**
-	 * Aplicar promocao, esta restora o sistema inteiro para antes do ultimo
-	 * aluguer, tambem pode ser vista como restaurar um backup.
-	 * 
-	 * @param NIF
-	 * @return
-	 */
-	public void promo() {
-		cliente = new Cliente(clienteBackup);
-		trot = new Trot(trotBackup);
-		cliente.setPromocaoAplicada(true);
-		atrasos = bAtrasos;
-		alugueres = bAlugueres;
-		totalCentimos = bTotalCentimos;
 	}
 
 	/**
@@ -150,7 +134,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void desativarTrot(String idTrot) {
-		trot.setInativa(true);
+		ItT.setInativa(idTrot,true);
 	}
 
 	/**
@@ -160,7 +144,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void reactivatTrot(String idTrot) {
-		trot.setInativa(false);
+		ItT.setInativa(idTrot,false);
 
 	}
 
@@ -176,50 +160,37 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public String getNIF() {
-		return cliente.getNIF();
+	public String getEmail(String nif) {
+		return ItC.getEmail(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getEmail() {
-		return cliente.getEmail();
+	public String getTelefone(String nif) {
+		return ItC.getTelefone(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getTelefone() {
-		return cliente.getTelefone();
+	public String getNome(String nif) {
+		return ItC.getNome(nif);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getNome() {
-		return cliente.getNome();
+	public int getSaldo(String nif) {
+		return ItC.getSaldo(nif);
 	}
+
 
 	/**
 	 * @return
 	 */
-	public int getSaldo() {
-		return cliente.getSaldo();
-	}
-
-	/**
-	 * @return
-	 */
-	public String getId() {
-		return trot.getIdTrot();
-	}
-
-	/**
-	 * @return
-	 */
-	public String getMatricula() {
-		return trot.getMatricula();
+	public String getMatricula(String idTrot) {
+		return ItT.getMatricula();
 	}
 
 	/**
@@ -251,10 +222,10 @@ public class TrotSystem {
 	}
 
 	/**
-	 * @param NIF 
+	 * @param nif 
 	 * @return
 	 */
-	public Trot getTrotDeUtilizador(String NIF) {
+	public Trot getTrotDeUtilizador(String nif) {
 		return cliente.getTrot();
 	}
 
@@ -262,7 +233,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public Cliente getUtilizadorDeTrot() {
-		return trot.getUtilizador();
+		return ItT.getUtilizador();
 	}
 
 	/**
@@ -273,10 +244,11 @@ public class TrotSystem {
 	}
 
 	/**
+	 * @param idTrot 
 	 * @return
 	 */
-	public boolean isInativa() {
-		return trot.isInativa();
+	public boolean isInativa(String idTrot) {
+		return ItC.isInativa(idTrot);
 	}
 
 	/**
@@ -289,8 +261,8 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public boolean hasCliente(String NIF) {
-		return ItC.searchCliente(NIF) != -1;
+	public boolean hasCliente(String nif) {
+		return ItC.searchCliente(nif) != -1;
 	}
 
 	/**
@@ -304,7 +276,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean trotIsLivre(String idTrot) {
-		return trot.livre();
+		return ItT.livre();
 	}
 
 	/**
@@ -412,35 +384,35 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean trotHasCliente() {
-		return trot.getUtilizador() != null;
+		return ItT.getUtilizador() != null;
 	}
 
 	/**
 	 * @return
 	 */
 	public String estadoTrot() {
-		return trot.estado();
+		return ItT.estado();
 	}
 
 	/**
 	 * @return
 	 */
 	public int getAlugueresTrot() {
-		return trot.getAlugueres();
+		return ItT.getAlugueres();
 	}
 
 	/**
 	 * @return
 	 */
 	public int getTotalMinutosTrot() {
-		return trot.getTotalMinutos();
+		return ItT.getTotalMinutos();
 	}
 
 	public Cliente[] getDevedores() {
 		return ItC.getDevedores();
 	}
 
-	public void sortClienteNIF() {
+	public void sortClienteNif() {
 		ItC.sort();
 		
 	}
