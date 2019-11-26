@@ -3,7 +3,7 @@ public class IteradorCliente {
 	
 	private static final int FACTOR = 3;
 	
-	private Cliente[] array1;
+	private Cliente[] cls;
 	private int count;
 	
 	public IteradorCliente() {
@@ -11,37 +11,47 @@ public class IteradorCliente {
 	}
 	
 	public Cliente getCliente(int index) {
-		return array1[index];
+		return cls[index];
 	}
 	
 	public boolean hasNext() {
-		return count < array1.length;
+		return count < cls.length;
 	}
 	
-    public boolean searchNIF(String NIF) {
-        int i;
-        boolean value = false;
-        for(i = 0; i < count; i++) {
-            if (array1[i] != null && array1[i].getNome().equals(NIF)) {
-            	value = true;
-            }
-        }
-        return value;
-    }
-	
 	private void resize() {
-		if (count > array1.length) {
-			Cliente[] array2 = new Cliente[FACTOR * array1.length];
-			for (int i = 0; i < array1.length; i++) {
-				array2[i] = array1[i];
+		if (count > cls.length) {
+			Cliente[] array2 = new Cliente[FACTOR * cls.length];
+			for (int i = 0; i < cls.length; i++) {
+				array2[i] = cls[i];
 			}
-			array1 = array2;
+			cls = array2;
 		}
 	}
 	
 	public void append(Cliente cliente) {
 		resize();
-		array1[count] = cliente;
+		cls[count] = cliente;
 		count++;
 	}
+
+	public Cliente[] getDevedores() {
+		Cliente[] cl = new Cliente[cls.length];
+		boolean[] used = new boolean[cls.length];
+		for (int i = 0; i<count; i++) {
+			int saldoMax = 1;
+			int j;
+			for (j = 0; j <count; j++) {
+				if (saldoMax >cls[j].getSaldo() && used[j] == false) {
+					saldoMax = cls[j].getSaldo();
+				}
+			}
+			cl[i] = cls[j];
+			used[j] = true;
+		}
+		
+		
+		return null;
+	}
+	
+
 }

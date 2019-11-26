@@ -53,11 +53,12 @@ public class TrotSystem {
 
 	/**
 	 * Remover um cliente existente.
+	 * @param NIF 
 	 * 
 	 * @param NIF
 	 * @return
 	 */
-	public void removerCliente() {
+	public void removerCliente(String NIF) {
 		cliente = null;
 
 	}
@@ -311,13 +312,13 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean hasTrot(String idTrot) {
-		return ItT.searchTrot(idTrot);
+		return ItT.hasTrot(idTrot);
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean trotIsLivre() {
+	public boolean trotIsLivre(String idTrot) {
 		return trot.livre();
 	}
 
@@ -448,5 +449,9 @@ public class TrotSystem {
 	 */
 	public int getTotalMinutosTrot() {
 		return trot.getTotalMinutos();
+	}
+
+	public Cliente[] getDevedores() {
+		return ItC.getDevedores();
 	}
 }
