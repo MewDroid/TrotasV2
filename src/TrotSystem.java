@@ -15,10 +15,6 @@ public class TrotSystem {
 	private int totalCentimos;
 	private int atrasos;
 
-	private int bAlugueres;
-	private int bTotalCentimos;
-	private int bAtrasos;
-
 	/**
 	 * Construtor do sistema.
 	 */
