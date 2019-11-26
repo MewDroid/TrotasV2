@@ -36,11 +36,17 @@ public class IteradorCliente {
 
 	public Cliente[] getDevedores() {
 		Cliente[] cl = new Cliente[cls.length];
-		for (int i = 0; i<cls.length; i++) {
+		boolean[] used = new boolean[cls.length];
+		for (int i = 0; i<count; i++) {
 			int saldoMax = 1;
-			for (int j = 0; j <cls.length; j++) {
-				if 
+			int j;
+			for (j = 0; j <count; j++) {
+				if (saldoMax >cls[j].getSaldo() && used[j] == false) {
+					saldoMax = cls[j].getSaldo();
+				}
 			}
+			cl[i] = cls[j];
+			used[j] = true;
 		}
 		
 		
