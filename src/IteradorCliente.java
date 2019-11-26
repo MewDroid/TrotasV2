@@ -38,7 +38,8 @@ public class IteradorCliente {
 
 	public void remove(String nif) {
 		for (int i = searchCliente(nif); i < count; i++)
-			cls[i] = cls[i + 1];
+			if (cls.length < i+1)
+				cls[i] = cls[i + 1];
 		count--;
 	}
 
