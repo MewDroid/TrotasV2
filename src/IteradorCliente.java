@@ -3,7 +3,7 @@ public class IteradorCliente {
 	
 	private static final int FACTOR = 3;
 	
-	private Cliente[] array1;
+	private Cliente[] cls;
 	private int count;
 	
 	public IteradorCliente() {
@@ -11,27 +11,40 @@ public class IteradorCliente {
 	}
 	
 	public Cliente getCliente(int index) {
-		return array1[index];
+		return cls[index];
 	}
 	
 	public boolean hasNext() {
-		return count < array1.length;
+		return count < cls.length;
 	}
 	
 	private void resize() {
-		if (count > array1.length) {
-			Cliente[] array2 = new Cliente[FACTOR * array1.length];
-			for (int i = 0; i < array1.length; i++) {
-				array2[i] = array1[i];
+		if (count > cls.length) {
+			Cliente[] array2 = new Cliente[FACTOR * cls.length];
+			for (int i = 0; i < cls.length; i++) {
+				array2[i] = cls[i];
 			}
-			array1 = array2;
+			cls = array2;
 		}
 	}
 	
 	public void append(Cliente cliente) {
 		resize();
-		array1[count] = cliente;
+		cls[count] = cliente;
 		count++;
+	}
+
+	public Cliente[] getDevedores() {
+		Cliente[] cl = new Cliente[cls.length];
+		for (int i = 0; i<cls.length; i++) {
+			int saldoMax = 1;
+			for (int j = 0; j <cls.length; j++) {
+				if 
+			}
+		}
+		
+		
+		return null;
 	}
 	
 

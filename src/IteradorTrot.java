@@ -3,7 +3,7 @@ public class IteradorTrot {
 
 	private static final int FACTOR = 3;
 	
-	private Trot[] array1;
+	private Trot[] trts;
 	private int count;
 	
 	public IteradorTrot() {
@@ -11,26 +11,26 @@ public class IteradorTrot {
 	}
 	
 	public Trot getTrot(int index) {
-		return array1[index];
+		return trts[index];
 	}
 	
 	public boolean hasNext() {
-		return count < array1.length;
+		return count < trts.length;
 	}
 	
 	private void resize() {
-		if (count > array1.length) {
-			Trot[] array2 = new Trot[FACTOR * array1.length];
-			for (int i = 0; i < array1.length; i++) {
-				array2[i] = array1[i];
+		if (count > trts.length) {
+			Trot[] array2 = new Trot[FACTOR * trts.length];
+			for (int i = 0; i < trts.length; i++) {
+				array2[i] = trts[i];
 			}
-			array1 = array2;
+			trts = array2;
 		}
 	}
 	
 	public void append(Trot trot) {
 		resize();
-		array1[count] = trot;
+		trts[count] = trot;
 		count++;
 	}
 
@@ -39,7 +39,7 @@ public class IteradorTrot {
 	        int i;
 	        boolean value = false;
 	        for(i = 0; i < count; i++) {
-	            if (array1[i] != null && array1[i].getIdTrot().equals(NIF)) {
+	            if (trts[i] != null && trts[i].getIdTrot().equals(NIF)) {
 	            	value = true;
 	            }
 	        }

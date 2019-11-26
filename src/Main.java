@@ -439,18 +439,7 @@ public class Main {
 
 	}
 
-	/**
-	 * @param sys
-	 */
-	public static void listarClientes(TrotSystem sys) {
-		for (int i = 0; i < sys.numeroClientes(); i++) {
-			String NIF = sys.getNIF(i);
-			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
-			+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
-			+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
-			+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
-		}
-	}
+	
 
 	/**
 	 * @param sys
@@ -462,18 +451,31 @@ public class Main {
 					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
 		}
 	}
-
+	
 	/**
 	 * @param sys
 	 */
-	public static void listarDevedores(TrotSystem sys) {
-
+	public static void listarClientes(TrotSystem sys) {
+	sys.sortClienteNIF();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
 			String NIF = sys.getNIF(i);
 			System.out.println(sys.getNome(NIF) + ": " + NIF + ", " + sys.getEmail(NIF) + ", " + sys.getTelefone(NIF)
 			+ ", " + sys.getSaldo(NIF) + ", " + sys.getTotalMinutosCliente(NIF) + ", "
 			+ sys.getAlugueresCliente(NIF) + ", " + sys.getMaxMinutosCliente(NIF) + ", "
 			+ sys.getMedMinutosCliente(NIF) + ", " + sys.getTotalCentimosCliente(NIF));
+		}
+	}
+	
+	/**
+	 * @param sys
+	 */
+	public static void listarDevedores(TrotSystem sys) {
+		Cliente[] cl = sys.getDevedores();
+		for (int i = 0; i < cl.length ; i++) {
+			System.out.println(cl[i].getNome() + ": " + cl[i].getNIF() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
+			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
+			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
+			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());
 		}
 	}
 }

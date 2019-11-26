@@ -450,4 +450,8 @@ public class TrotSystem {
 	public int getTotalMinutosTrot() {
 		return trot.getTotalMinutos();
 	}
+
+	public Cliente[] getDevedores() {
+		return ItC.getDevedores();
+	}
 }
