@@ -42,10 +42,9 @@ public class Cliente {
 	 * @param trot
 	 */
 	public void setTrot(Trot trot) {
-		if (trot != null) {
-			this.trot = trot;
+		this.trot = trot;
+		if (trot !=null)
 			trot.setCliente(this);
-		}
 	}
 
 	/**
