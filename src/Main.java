@@ -339,7 +339,7 @@ public class Main {
 				System.out.println(SUCESSOS[8]);
 				sys.setInativa(idTrot, true);
 			} else {
-				System.out.println(ERROS[8]);
+				System.out.println(ERROS[10]);
 			}
 		} else {
 			System.out.println(ERROS[7]);
