@@ -2,11 +2,13 @@
 public class IteradorTrot {
 
 	private static final int FACTOR = 3;
+	private static final int BASE_SIZE = 10;
 	
 	private Trot[] trts;
 	private int count;
 	
 	public IteradorTrot() {
+		trts = new Trot[BASE_SIZE];
 		count = 0;
 	}
 	
@@ -19,7 +21,7 @@ public class IteradorTrot {
 	}
 	
 	private void resize() {
-		if (count > trts.length) {
+		if (count == trts.length) {
 			Trot[] array2 = new Trot[FACTOR * trts.length];
 			for (int i = 0; i < trts.length; i++) {
 				array2[i] = trts[i];
@@ -46,11 +48,25 @@ public class IteradorTrot {
         return trt;
     }
 	
+//	public int searchTrotWithCoords(String idTrot) {
+//		int i;
+//		int trt = -1;
+//		for (int i = 0; i < count; i++) {
+//			if (trts[i].getCoordsTrot() != null) {
+//				trt = i;
+//				break;
+//			}
+//		}
+//		return trt;
+//	}
+	
+	
+	
 	public boolean hasTrot(String nif) {
 	        int i;
 	        boolean value = false;
 	        for(i = 0; i < count; i++) {
-	            if (trts[i] != null && trts[i].getIdTrot().equals(nif)) {
+	            if (trts[i].getIdTrot().equalsIgnoreCase(nif)) {
 	            	value = true;
 	            }
 	        }
@@ -73,6 +89,14 @@ public class IteradorTrot {
 		trts[searchTrot(idTrot)].setInativa(i);
 	}
 	
+	public void setCoords(String idTrot, double xCord, double yCord) {
+		trts[searchTrot(idTrot)].setCoords(xCord, yCord);
+	}
+	
+	public void setDistance(String idTrot, double posX, double posY) {
+		trts[searchTrot(idTrot)].calculateDistance(posX, posY);
+	}
+	
 	public void setCliente(String idTrot, Cliente cliente) {
 		trts[searchTrot(idTrot)].setCliente(cliente);
 	}
@@ -83,6 +107,10 @@ public class IteradorTrot {
 	
 	public boolean livre(String idTrot) {
 		return trts[searchTrot(idTrot)].livre();
+	}
+	
+	public boolean withCoordsExists(String idTrot) {
+		return trts[searchTrot(idTrot)].withCoordsExist();
 	}
 	
 	public void incrementarAlugueres(String idTrot) {
@@ -103,6 +131,14 @@ public class IteradorTrot {
 	
 	public int getTotalMinutos(String idTrot) {
 		return trts[searchTrot(idTrot)].getTotalMinutos();
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public String getId(int i) {
+		return trts[i].getIdTrot();
 	}
 	
 }

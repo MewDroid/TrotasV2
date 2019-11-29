@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -12,17 +13,21 @@ public class Main {
 	public static final String ADICIONAR_SALDO = "CARRSALDO";
 	public static final String ALUGAR = "ALUGAR";
 	public static final String LIBERTAR = "LIBERTAR";
+	public static final String LIBLOCAL = "LIBLOC";
+	public static final String LOCTROT = "LOCTROT";
 	public static final String DADOS_SISTEMA = "ESTADOSISTEMA";
-	public static final String PROMO = "PROMOCAO";
 	public static final String DESATIVAR = "DESTROT";
 	public static final String REACTIVAR = "REACTROT";
+	public static final String LIST_TROT = "LISTTROT";
+	public static final String LIST_CL = "LISTCLIENTE";
+	public static final String LIST_DEV = "LISTDEV";
 	public static final String SAIR = "SAIR";
 
 	public static final String[] ERROS = { "Cliente existente.", "Cliente inexistente.", "Cliente em movimento.",
 			"Cliente sem trotinete.", "Cliente sem saldo suficiente.", "Cliente iniciou novo aluguer.",
 			"Trotinete existente.", "Trotinete inexistente.", "Trotinete nao alugada.",
-			"Trotinete nao pode ser alugada.", "Trotinete em movimento.", "Trotinete reactivada.",
-			"Trotinete nao inactiva.", "Valor invalido.", "Promocao ja aplicada.", "Comando invalido." };
+			"Trotinete nao pode ser alugada.", "Trotinete em movimento.", "Trotinete reactivada.", "Nao existem trotinetes localizadas.",
+			"Trotinete nao inactiva.", "Valor invalido.", "Promocao ja aplicada.", "Comando invalido.", "Localizacao invalida." };
 	public static final String[] SUCESSOS = { "Insercao de cliente com sucesso.", "Cliente removido com sucesso.",
 			"Insercao de trotinete com sucesso.", "Carregamento efectuado.", "Aluguer efectuado com sucesso.",
 			"Aluguer terminado.", "Saindo...", "Promocao aplicada.", "Trotinete desactivada.",
@@ -34,7 +39,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("1".compareTo("2"));
+		Locale.setDefault(Locale.US);
 		String cmd = "";
 		TrotSystem sys = new TrotSystem();
 		Scanner in = new Scanner(System.in);
@@ -91,6 +96,8 @@ public class Main {
 		String matricula;
 		int valorCentimos;
 		int minutos;
+		int latitude;
+		int longitude;
 		switch (cmd.toUpperCase()) {
 		case ADICIONAR_CLIENTE:
 			nif = readString(in);
@@ -148,6 +155,14 @@ public class Main {
 			in.nextLine();
 			libertarTrot(idTrot, minutos, sys);
 			break;
+		case LIBLOCAL:
+			idTrot = readString(in);
+			minutos = readInt(in);
+			latitude = readInt(in);
+			longitude = readInt(in);
+			in.hasNextLine();
+			libertarTrotLoc(idTrot, minutos, latitude, longitude, sys);
+			break;
 		case DADOS_SISTEMA:
 			in.nextLine();
 			dadosSistema(sys);
@@ -162,7 +177,15 @@ public class Main {
 			in.nextLine();
 			reactivatTrot(idTrot, sys);
 			break;
-
+		case LIST_TROT:
+			listarTrotinetes(sys);
+			break;
+		case LIST_CL:
+			listarClientes(sys);
+			break;
+		case LIST_DEV:
+			listarDevedores(sys);
+			break;
 		case SAIR:
 			in.nextLine();
 			System.out.println(SUCESSOS[6]);
@@ -266,11 +289,15 @@ public class Main {
 		if (sys.hasCliente(nif)) {
 			if (sys.hasTrot(idTrot)) {
 				if (sys.trotIsLivre(idTrot) && !sys.isInativa(idTrot)) {
-					if (sys.getSaldo(nif) >= TrotSystem.CUSTO_DE_ALUGUER) {
-						sys.alugarTrot(nif, idTrot);
-						System.out.println(SUCESSOS[4]);
+					if (sys.getTrotDeUtilizador(nif) == null) {
+						if (sys.getSaldo(nif) >= TrotSystem.CUSTO_DE_ALUGUER) {
+							sys.alugarTrot(nif, idTrot);
+							System.out.println(SUCESSOS[4]);
+						} else {
+							System.out.println(ERROS[4]);
+						}
 					} else {
-						System.out.println(ERROS[4]);
+						System.out.println(ERROS[2]);
 					}
 				} else {
 					System.out.println(ERROS[9]);
@@ -310,6 +337,34 @@ public class Main {
 		}
 
 	}
+	
+	public static void libertarTrotLoc(String idTrot, int minutos, double longitude, double latitude, TrotSystem sys) {
+		if (minutos > 0) {
+			if (sys.hasTrot(idTrot)) {
+				if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
+					if (sys.isInside(longitude, latitude)) {
+						System.out.println(SUCESSOS[5]);
+						sys.libertarTrotLoc(idTrot, minutos, longitude, latitude);
+					} else {
+						System.out.println(ERROS[16]);
+					}
+				} else {
+					System.out.println(ERROS[8]);
+				}
+			} else {
+				System.out.println(ERROS[7]);
+			}
+		} else {
+			System.out.println(ERROS[13]);
+		}
+	}
+	
+	public static void localizarTrot(String idTrot, double longitude, double latitude, TrotSystem sys) {
+		if (sys.TrotWithCoords(idTrot)) {
+			System.out.printf("%.6f","Distancia: "+ sys.TrotWithLowerDistance());
+//			System.out.println("matricula: "+);
+		}
+	}
 
 	/**
 	 * Desativa uma trotinete, esta acao proibe o uso da mesma para alugar.
@@ -324,7 +379,7 @@ public class Main {
 				System.out.println(SUCESSOS[8]);
 				sys.setInativa(idTrot, true);
 			} else {
-				System.out.println(ERROS[8]);
+				System.out.println(ERROS[10]);
 			}
 		} else {
 			System.out.println(ERROS[7]);
@@ -371,7 +426,7 @@ public class Main {
 	 */
 	public static void dadosDeUtilizador(String nif, TrotSystem sys) {
 		if (sys.hasCliente(nif)) {
-			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
 					+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 					+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
 					+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
@@ -430,7 +485,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.trotHasCliente(idTrot)) {
-				System.out.println(sys.getNif(idTrot) + ", " + sys.getNome(sys.getNif(idTrot)));
+				System.out.println(sys.getNifInTrot(idTrot) + ", " + sys.getNome(sys.getNifInTrot(idTrot)));
 			} else {
 				System.out.println(ERROS[8]);
 			}
@@ -460,7 +515,7 @@ public class Main {
 		sys.sortClienteNif();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
 			String nif = sys.getNif(i);
-			System.out.println(sys.getNome(nif) + ": " + nif + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
 			+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 			+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
 			+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
@@ -472,11 +527,13 @@ public class Main {
 	 */
 	public static void listarDevedores(TrotSystem sys) {
 		Cliente[] cl = sys.getDevedores();
-		for (int i = 0; i < cl.length ; i++) {
-			System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
+		for (int i = 0; i < sys.numeroClientes() ; i++) {
+			if (cl[i] != null)
+				System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
 			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
 			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
 			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());
 		}
 	}
+	
 }

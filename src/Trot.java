@@ -3,6 +3,8 @@ public class Trot {
 	private String idTrot, matricula;
 	private boolean alugada;
 	private int alugueres, totalMinutos;
+	private double xCord, yCord;
+	private boolean TrotWithCoords;
 	private Cliente cliente;
 	private boolean inativa;
 
@@ -18,21 +20,9 @@ public class Trot {
 		inativa = false;
 	}
 
-	/**
-	 * Criacao e restauro de backups.
-	 * 
-	 * @param t
-	 */
-	public Trot(Trot t) {
-		if (t != null) {
-			idTrot = t.idTrot;
-			matricula = t.matricula;
-			alugada = t.alugada;
-			alugueres = t.alugueres;
-			totalMinutos = t.totalMinutos;
-			cliente = null;
-			inativa = t.inativa;
-		}
+
+	public double calculateDistance(double posX, double posY) {
+		return (Math.pow(1/2,(Math.pow(2,(posX - xCord)) + Math.pow(2, (posY - yCord)))));
 	}
 
 	/**
@@ -41,13 +31,7 @@ public class Trot {
 	 * @return
 	 */
 	public boolean livre() {
-		boolean livre;
-		if (cliente == null) {
-			livre = true;
-		} else {
-			livre = false;
-		}
-		return livre;
+		return cliente == null;
 	}
 
 	/**
@@ -84,7 +68,17 @@ public class Trot {
 	public void setIdTrot(String idTrot) {
 		this.idTrot = idTrot;
 	}
+	
+	public void setCoords(double xCord, double yCord) {
+		this.xCord = xCord;
+		this.yCord = yCord;
+		TrotWithCoords = true;
+	}
 
+	public boolean withCoordsExist() {
+		return TrotWithCoords;
+	}
+	
 	/**
 	 * Devolve a matricula.
 	 * 
@@ -170,12 +164,7 @@ public class Trot {
 	 * @param utilizador
 	 */
 	public void setCliente(Cliente utilizador) {
-		if (utilizador != null) {
-			this.cliente = utilizador;
-		} else {
-			this.cliente = new Cliente(null);
-			this.cliente = null;
-		}
+		this.cliente = utilizador;
 	}
 
 	/**

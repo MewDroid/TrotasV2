@@ -14,14 +14,24 @@ public class TrotSystem {
 	private int alugueres;
 	private int totalCentimos;
 	private int atrasos;
+	private static final double AreaWest = -9.209269;
+	private static final double AreaEast = -9.201978;
+	private static final double AreaSouth = 38.658475;
+	private static final double AreaNorth =  38.663964;
 
 	/**
 	 * Construtor do sistema.
 	 */
 	public TrotSystem() {
+		itc = new IteradorCliente();
+		itt = new IteradorTrot();
 		alugueres = 0;
 		totalCentimos = 0;
 		atrasos = 0;
+	}
+	
+	public boolean isInside(double xcord, double ycord) {
+		return (xcord <= AreaEast && xcord >= AreaWest && ycord >= AreaSouth && ycord <= AreaNorth);
 	}
 
 	/**
@@ -105,7 +115,38 @@ public class TrotSystem {
 		itc.mudarTotalCentimos(nif,CUSTO_DE_ALUGUER);
 		itc.setMaxMinutos(nif,minutos);
 		int tempoExtra = minutos - TEMPO_LIMITE;
-		atrasos += tempoExtra;
+		if (tempoExtra >0)
+			atrasos += tempoExtra;
+		while (tempoExtra > 0) {
+
+			itc.mudarSaldo(nif,-PENALIZACAO);
+			totalCentimos += PENALIZACAO;
+			itc.mudarTotalCentimos(nif,PENALIZACAO);
+			tempoExtra -= INTERVALOS_DE_PENALIZACAO;
+		}
+		itc.setTrot(nif, null);
+		itt.setCliente(idTrot,null);
+	}
+	
+	public void libertarTrotLoc(String idTrot,int minutos, double xCord, double yCord) {
+		String nif = itt.getCliente(idTrot).getNif();
+		itc.mudarSaldo(nif,-CUSTO_DE_ALUGUER);
+		alugueres++;
+		itc.incrementarAlugueres(nif);
+		itc.mudarTotalMinutos(nif,minutos);
+
+		itt.mudarTotalMinutos(idTrot,minutos);
+		itt.incrementarAlugueres(idTrot);
+
+		totalCentimos += CUSTO_DE_ALUGUER;
+		itc.mudarTotalCentimos(nif,CUSTO_DE_ALUGUER);
+		itc.setMaxMinutos(nif,minutos);
+		int tempoExtra = minutos - TEMPO_LIMITE;
+		
+		itt.setCoords(idTrot, xCord, yCord);
+		
+		if (tempoExtra >0)
+			atrasos += tempoExtra;
 		while (tempoExtra > 0) {
 
 			itc.mudarSaldo(nif,-PENALIZACAO);
@@ -133,17 +174,14 @@ public class TrotSystem {
 	/**
 	 * @return
 	 */
-	public TrotSystem getTrotSystemBackup() {
-		return trotSystemBackup;
-	}
-
-	/**
-	 * @return
-	 */
 	public String getEmail(String nif) {
 		return itc.getEmail(nif);
 	}
 
+	public boolean TrotWithCoords(String idTrot) {
+		return itt.withCoordsExists(idTrot);
+	}
+	
 	/**
 	 * @return
 	 */
@@ -268,13 +306,6 @@ public class TrotSystem {
 		return atrasos;
 	}
 
-	/**
-	 * @param c
-	 */
-	private void setUtilizadorDeTrot(String idTrot,Cliente c) {
-		itt.setCliente(idTrot,c);
-
-	}
 
 	/**
 	 * @param t
@@ -331,14 +362,14 @@ public class TrotSystem {
 	 * @return
 	 */
 	public boolean clienteHasTrot(String nif) {
-		return itc.getTrot(nif) != -1;
+		return itc.getTrot(nif) != null;
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean trotHasCliente(String idTrot) {
-		return itt.getCliente(idTrot) != -1;
+		return itt.getCliente(idTrot) != null;
 	}
 
 	/**
@@ -379,7 +410,11 @@ public class TrotSystem {
 		return itc.getNif(i);
 	}
 
-	public String getNif(String idTrot) {
+	public String getNif(String nif) {
+		return itc.getNif(nif);
+	}
+	
+	public String getNifInTrot(String idTrot) {
 		return itt.getCliente(idTrot).getNif();
 	}
 	
@@ -393,7 +428,7 @@ public class TrotSystem {
 
 	public String getId(String nif) {
 		
-		return itc.getTrot(nif).getId();
+		return itc.getTrot(nif).getIdTrot();
 	}
 
 	
