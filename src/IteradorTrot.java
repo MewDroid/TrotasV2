@@ -48,20 +48,6 @@ public class IteradorTrot {
         return trt;
     }
 	
-//	public int searchTrotWithCoords(String idTrot) {
-//		int i;
-//		int trt = -1;
-//		for (int i = 0; i < count; i++) {
-//			if (trts[i].getCoordsTrot() != null) {
-//				trt = i;
-//				break;
-//			}
-//		}
-//		return trt;
-//	}
-	
-	
-	
 	public boolean hasTrot(String nif) {
 	        int i;
 	        boolean value = false;
@@ -136,18 +122,7 @@ public class IteradorTrot {
 	public String getId(int i) {
 		return trts[i].getIdTrot();
 	}
-/*
-	public boolean hasTrotWithCoords() {
-		boolean r = false;
-		for (int i = 0; i< count; i++) {
-			if (trts[i].withCoordsExist()) {
-				r = true;
-				break;
-			}
-		}
-		return r;
-	}
-*/	
+	
 	public Trot closest(double longitude, double latitude) {
 		double dist = -1;
 		Trot trt = null;

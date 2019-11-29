@@ -96,8 +96,8 @@ public class Main {
 		String matricula;
 		int valorCentimos;
 		int minutos;
-		int latitude;
-		int longitude;
+		Double longitude;
+		Double latitude;
 		switch (cmd.toUpperCase()) {
 		case ADICIONAR_CLIENTE:
 			nif = readString(in);
@@ -158,8 +158,8 @@ public class Main {
 		case LIBLOCAL:
 			idTrot = readString(in);
 			minutos = readInt(in);
-			latitude = readInt(in);
-			longitude = readInt(in);
+			longitude = in.nextDouble();
+			latitude = in.nextDouble();
 			in.hasNextLine();
 			libertarTrotLoc(idTrot, minutos, latitude, longitude, sys);
 			break;
@@ -333,30 +333,30 @@ public class Main {
 				System.out.println(ERROS[7]);
 			}
 		} else {
-			System.out.println(ERROS[13]);
+			System.out.println(ERROS[14]);
 		}
 
 	}
 	
 	public static void libertarTrotLoc(String idTrot, int minutos, double longitude, double latitude, TrotSystem sys) {
-		if (minutos > 0) {
 			if (sys.hasTrot(idTrot)) {
 				if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
-					if (sys.isInside(longitude, latitude)) {
-						System.out.println(SUCESSOS[5]);
-						sys.libertarTrotLoc(idTrot, minutos, longitude, latitude);
+					if (minutos > 0) {
+						if (sys.isInside(longitude, latitude)) {
+							System.out.println(SUCESSOS[5]);
+							sys.libertarTrotLoc(idTrot, minutos, longitude, latitude);
+						} else {
+							System.out.println(ERROS[17]);
+						}
 					} else {
-						System.out.println(ERROS[17]);
+						System.out.println(ERROS[14]);
 					}
 				} else {
-					System.out.println(ERROS[8]);
+					System.out.println(ERROS[7]);
 				}
 			} else {
-				System.out.println(ERROS[7]);
+				System.out.println(ERROS[8]);
 			}
-		} else {
-			System.out.println(ERROS[13]);
-		}
 	}
 	
 	public static void localizarTrot(double longitude, double latitude, TrotSystem sys) {
