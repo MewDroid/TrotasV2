@@ -183,4 +183,14 @@ public class Trot {
 	public void setInativa(boolean inativa) {
 		this.inativa = inativa;
 	}
+
+	public double getxCord() {
+		return xCord;
+	}
+
+	public double getyCord() {
+		return yCord;
+	}
+	
+	
 }

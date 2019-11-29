@@ -346,7 +346,7 @@ public class Main {
 						System.out.println(SUCESSOS[5]);
 						sys.libertarTrotLoc(idTrot, minutos, longitude, latitude);
 					} else {
-						System.out.println(ERROS[16]);
+						System.out.println(ERROS[17]);
 					}
 				} else {
 					System.out.println(ERROS[8]);
@@ -362,9 +362,8 @@ public class Main {
 	public static void localizarTrot(double longitude, double latitude, TrotSystem sys) {
 		Trot trt = sys.getClosest(longitude,latitude);
 		if (trt != null) {
-			System.out.print
-			System.out.printf("%.6f","Distancia: "+ trt.getDistanceTo(longitude, latitude));
-			System.out.println("matricula: ");
+			System.out.printf("%.6f","Distancia: "+ trt.getDistanceTo(longitude, latitude)+"\n");
+			System.out.println(trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getyCord()+", "+trt.getxCord());
 		}
 		else {
 			System.out.println(ERROS[12]);

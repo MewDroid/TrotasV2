@@ -93,10 +93,6 @@ public class IteradorTrot {
 		trts[searchTrot(idTrot)].setCoords(xCord, yCord);
 	}
 	
-	public void setDistance(String idTrot, double posX, double posY) {
-		trts[searchTrot(idTrot)].calculateDistance(posX, posY);
-	}
-	
 	public void setCliente(String idTrot, Cliente cliente) {
 		trts[searchTrot(idTrot)].setCliente(cliente);
 	}
