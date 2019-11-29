@@ -96,8 +96,8 @@ public class Main {
 		String matricula;
 		int valorCentimos;
 		int minutos;
-		Double longitude;
-		Double latitude;
+		double longitude;
+		double latitude;
 		switch (cmd.toUpperCase()) {
 		case ADICIONAR_CLIENTE:
 			nif = readString(in);
@@ -161,7 +161,7 @@ public class Main {
 			longitude = in.nextDouble();
 			latitude = in.nextDouble();
 			in.hasNextLine();
-			libertarTrotLoc(idTrot, minutos, latitude, longitude, sys);
+			libertarTrotLoc(idTrot, minutos, longitude, latitude, sys);
 			break;
 		case DADOS_SISTEMA:
 			in.nextLine();
