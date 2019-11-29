@@ -20,7 +20,6 @@ public class Trot {
 		inativa = false;
 	}
 
-
 	public double calculateDistance(double posX, double posY) {
 		return (Math.pow(1/2,(Math.pow(2,(posX - xCord)) + Math.pow(2, (posY - yCord)))));
 	}
