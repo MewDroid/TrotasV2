@@ -431,5 +431,9 @@ public class TrotSystem {
 		return itc.getTrot(nif).getIdTrot();
 	}
 
+	public Trot getClosest(double longitude, double latitude) {
+		return itt.closest(longitude, latitude);
+	}
+
 	
 }

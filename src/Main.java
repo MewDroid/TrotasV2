@@ -359,10 +359,15 @@ public class Main {
 		}
 	}
 	
-	public static void localizarTrot(String idTrot, double longitude, double latitude, TrotSystem sys) {
-		if (sys.TrotWithCoords(idTrot)) {
-			System.out.printf("%.6f","Distancia: "+ sys.TrotWithLowerDistance());
-//			System.out.println("matricula: "+);
+	public static void localizarTrot(double longitude, double latitude, TrotSystem sys) {
+		Trot trt = sys.getClosest(longitude,latitude);
+		if (trt != null) {
+			System.out.print
+			System.out.printf("%.6f","Distancia: "+ trt.getDistanceTo(longitude, latitude));
+			System.out.println("matricula: ");
+		}
+		else {
+			System.out.println(ERROS[12]);
 		}
 	}
 

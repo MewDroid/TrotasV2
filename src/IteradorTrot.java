@@ -140,5 +140,29 @@ public class IteradorTrot {
 	public String getId(int i) {
 		return trts[i].getIdTrot();
 	}
+/*
+	public boolean hasTrotWithCoords() {
+		boolean r = false;
+		for (int i = 0; i< count; i++) {
+			if (trts[i].withCoordsExist()) {
+				r = true;
+				break;
+			}
+		}
+		return r;
+	}
+*/	
+	public Trot closest(double longitude, double latitude) {
+		double dist = -1;
+		Trot trt = null;
+		for (int i = 0; i<count; i++) {
+			double t = trts[i].getDistanceTo(longitude, latitude);
+			if (t> dist) {
+				dist = t;
+				trt = trts[i];
+			}
+		}
+		return trt;
+	}
 	
 }

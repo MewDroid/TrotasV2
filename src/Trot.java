@@ -4,7 +4,7 @@ public class Trot {
 	private boolean alugada;
 	private int alugueres, totalMinutos;
 	private double xCord, yCord;
-	private boolean TrotWithCoords;
+	private boolean trotWithCoords;
 	private Cliente cliente;
 	private boolean inativa;
 
@@ -20,8 +20,8 @@ public class Trot {
 		inativa = false;
 	}
 
-	public double calculateDistance(double posX, double posY) {
-		return (Math.pow(1/2,(Math.pow(2,(posX - xCord)) + Math.pow(2, (posY - yCord)))));
+	public double getDistanceTo(double posX, double posY) {
+		return Math.sqrt(Math.pow(posX - xCord,2) + Math.pow(posY - yCord,2));
 	}
 
 	/**
@@ -71,11 +71,11 @@ public class Trot {
 	public void setCoords(double xCord, double yCord) {
 		this.xCord = xCord;
 		this.yCord = yCord;
-		TrotWithCoords = true;
+		trotWithCoords = true;
 	}
 
 	public boolean withCoordsExist() {
-		return TrotWithCoords;
+		return trotWithCoords;
 	}
 	
 	/**
