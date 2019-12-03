@@ -123,6 +123,28 @@ public class IteradorTrot {
 		return trts[i].getIdTrot();
 	}
 	
+	//
+	public Trot[] sortDistances(double latitude, double longitude) {
+		Trot[] array = new Trot[trts.length];
+		boolean[] used = new boolean[trts.length];
+		for (int i = 0; i < count; i++) {
+			double DistMax = -1;
+			int j;
+			int id = -1;
+			for (j = 0; j < count; j++) {
+				if ((DistMax > trts[j].getDistanceTo(latitude, longitude) || DistMax == -1) && used[j] == false) {
+					DistMax = trts[j].getDistanceTo(latitude, longitude);
+					id = j;
+				}
+			}
+			if (id > -1) {
+				array[i] = trts[id];
+				used[id] = true;
+			}
+		}
+		return array;
+	}
+	
 	public Trot closest(double longitude, double latitude) {
 		double dist = -1;
 		Trot trt = null;
