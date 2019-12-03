@@ -3,7 +3,7 @@ public class Trot {
 	private String idTrot, matricula;
 	private boolean alugada;
 	private int alugueres, totalMinutos;
-	private double xCord, yCord;
+	private double longitude, latitude;
 	private boolean trotWithCoords;
 	private Cliente cliente;
 	private boolean inativa;
@@ -20,8 +20,8 @@ public class Trot {
 		inativa = false;
 	}
 
-	public double getDistanceTo(double posX, double posY) {
-		return Math.sqrt(Math.pow(posX - xCord,2) + Math.pow(posY - yCord,2));
+	public double getDistanceTo(double lat, double lon) {
+		return Math.sqrt(Math.pow(lon - longitude,2) + Math.pow(lat - latitude,2));
 	}
 
 	/**
@@ -68,13 +68,13 @@ public class Trot {
 		this.idTrot = idTrot;
 	}
 	
-	public void setCoords(double xCord, double yCord) {
-		this.xCord = xCord;
-		this.yCord = yCord;
+	public void setCoords(double lat, double lon) {
+		this.longitude = lon;
+		this.latitude = lat;
 		trotWithCoords = true;
 	}
 
-	public boolean withCoordsExist() {
+	public boolean hasCoords() {
 		return trotWithCoords;
 	}
 	
@@ -184,12 +184,12 @@ public class Trot {
 		this.inativa = inativa;
 	}
 
-	public double getxCord() {
-		return xCord;
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public double getyCord() {
-		return yCord;
+	public double getLatitude() {
+		return latitude;
 	}
 	
 	

@@ -30,8 +30,8 @@ public class TrotSystem {
 		atrasos = 0;
 	}
 	
-	public boolean isInside(double xcord, double ycord) {
-		return (xcord <= AreaEast && xcord >= AreaWest && ycord >= AreaSouth && ycord <= AreaNorth);
+	public boolean isInside(double latitude, double longitude) {
+		return (longitude <= AreaEast && longitude >= AreaWest && latitude >= AreaSouth && latitude <= AreaNorth);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class TrotSystem {
 		itt.setCliente(idTrot,null);
 	}
 	
-	public void libertarTrotLoc(String idTrot,int minutos, double xCord, double yCord) {
+	public void libertarTrotLoc(String idTrot,int minutos, double latitude, double longitude) {
 		String nif = itt.getCliente(idTrot).getNif();
 		itc.mudarSaldo(nif,-CUSTO_DE_ALUGUER);
 		alugueres++;
@@ -143,7 +143,7 @@ public class TrotSystem {
 		itc.setMaxMinutos(nif,minutos);
 		int tempoExtra = minutos - TEMPO_LIMITE;
 		
-		itt.setCoords(idTrot, xCord, yCord);
+		itt.setCoords(idTrot, latitude, longitude);
 		
 		if (tempoExtra >0)
 			atrasos += tempoExtra;
@@ -308,36 +308,6 @@ public class TrotSystem {
 
 
 	/**
-	 * @param t
-	 */
-	private void setTrotDeUtilizador(String nif,Trot t) {
-		itc.setTrot(nif,t);
-
-	}
-
-	/**
-	 * @param minutos
-	 */
-	private void setMaxMinutosCliente(String nif,int minutos) {
-		itc.setMaxMinutos(nif,minutos);
-	}
-
-
-	/**
-	 * 
-	 */
-	private void incrementarAlugueresTrot(String idTrot) {
-		itt.incrementarAlugueres(idTrot);
-	}
-
-	/**
-	 * @param minutos
-	 */
-	private void mudarTotalMinutosTrot(String idTrot,int minutos) {
-		itt.mudarTotalMinutos(idTrot,minutos);
-	}
-
-	/**
 	 * @return
 	 */
 	public int getTotalCentimosCliente(String nif) {
@@ -431,8 +401,8 @@ public class TrotSystem {
 		return itc.getTrot(nif).getIdTrot();
 	}
 
-	public Trot getClosest(double longitude, double latitude) {
-		return itt.closest(longitude, latitude);
+	public Trot getClosest(double latitude, double longitude) {
+		return itt.closest(latitude,longitude);
 	}
 
 	

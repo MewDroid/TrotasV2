@@ -27,10 +27,10 @@ public class Main {
 			"Cliente sem trotinete.", "Cliente sem saldo suficiente.", "Cliente iniciou novo aluguer.",
 			"Trotinete existente.", "Trotinete inexistente.", "Trotinete nao alugada.",
 			"Trotinete nao pode ser alugada.", "Trotinete em movimento.", "Trotinete reactivada.", "Nao existem trotinetes localizadas.",
-			"Trotinete nao inactiva.", "Valor invalido.", "Promocao ja aplicada.", "Comando invalido.", "Localizacao invalida." };
+			"Trotinete nao inactiva.", "Valor invalido.", "Comando invalido.", "Localizacao invalida." };
 	public static final String[] SUCESSOS = { "Insercao de cliente com sucesso.", "Cliente removido com sucesso.",
 			"Insercao de trotinete com sucesso.", "Carregamento efectuado.", "Aluguer efectuado com sucesso.",
-			"Aluguer terminado.", "Saindo...", "Promocao aplicada.", "Trotinete desactivada.",
+			"Aluguer terminado.", "Saindo...", "Trotinete desactivada.",
 			"Trotinete reactivada." };
 
 	/**
@@ -158,10 +158,16 @@ public class Main {
 		case LIBLOCAL:
 			idTrot = readString(in);
 			minutos = readInt(in);
-			longitude = in.nextDouble();
 			latitude = in.nextDouble();
+			longitude = in.nextDouble();
 			in.hasNextLine();
-			libertarTrotLoc(idTrot, minutos, longitude, latitude, sys);
+			libertarTrotLoc(idTrot, minutos, latitude, longitude, sys);
+			break;
+		case LOCTROT:
+			latitude = in.nextDouble();
+			longitude = in.nextDouble();
+			localizarTrot(latitude, longitude, sys);
+			in.nextLine();
 			break;
 		case DADOS_SISTEMA:
 			in.nextLine();
@@ -338,32 +344,33 @@ public class Main {
 
 	}
 	
-	public static void libertarTrotLoc(String idTrot, int minutos, double longitude, double latitude, TrotSystem sys) {
-			if (sys.hasTrot(idTrot)) {
-				if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
-					if (minutos > 0) {
-						if (sys.isInside(longitude, latitude)) {
+	public static void libertarTrotLoc(String idTrot, int minutos, double latitude, double longitude, TrotSystem sys) {
+			if (sys.isInside(latitude, longitude)) {
+				if (minutos > 0) {
+					if (sys.hasTrot(idTrot)) {
+						if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
 							System.out.println(SUCESSOS[5]);
-							sys.libertarTrotLoc(idTrot, minutos, longitude, latitude);
+							sys.libertarTrotLoc(idTrot, minutos, latitude, longitude);
 						} else {
-							System.out.println(ERROS[17]);
+							System.out.println(ERROS[8]);
 						}
 					} else {
-						System.out.println(ERROS[14]);
+						System.out.println(ERROS[7]);
 					}
 				} else {
-					System.out.println(ERROS[7]);
+					System.out.println(ERROS[14]);
 				}
 			} else {
-				System.out.println(ERROS[8]);
+				System.out.println(ERROS[16]);
+				
 			}
 	}
 	
-	public static void localizarTrot(double longitude, double latitude, TrotSystem sys) {
-		Trot trt = sys.getClosest(longitude,latitude);
+	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
+		Trot trt = sys.getClosest(latitude,longitude);
 		if (trt != null) {
-			System.out.printf("%.6f","Distancia: "+ trt.getDistanceTo(longitude, latitude)+"\n");
-			System.out.println(trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getyCord()+", "+trt.getxCord());
+			System.out.printf("Distancia: ","%.6d",+ trt.getDistanceTo(latitude, longitude));
+			System.out.println("\n"+trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getLatitude()+", "+trt.getLongitude());
 		}
 		else {
 			System.out.println(ERROS[12]);
@@ -380,7 +387,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.getUtilizadorDeTrot(idTrot) == null) {
-				System.out.println(SUCESSOS[8]);
+				System.out.println(SUCESSOS[7]);
 				sys.setInativa(idTrot, true);
 			} else {
 				System.out.println(ERROS[10]);
@@ -401,7 +408,7 @@ public class Main {
 
 		if (sys.hasTrot(idTrot)) {
 			if (sys.isInativa(idTrot)) {
-				System.out.println(SUCESSOS[9]);
+				System.out.println(SUCESSOS[8]);
 				sys.setInativa(idTrot, false);
 			} else {
 				System.out.println(ERROS[12]);

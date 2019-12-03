@@ -92,7 +92,7 @@ public class IteradorTrot {
 	}
 	
 	public boolean withCoordsExists(String idTrot) {
-		return trts[searchTrot(idTrot)].withCoordsExist();
+		return trts[searchTrot(idTrot)].hasCoords();
 	}
 	
 	public void incrementarAlugueres(String idTrot) {
@@ -127,6 +127,8 @@ public class IteradorTrot {
 		double dist = -1;
 		Trot trt = null;
 		for (int i = 0; i<count; i++) {
+			if (!trts[i].hasCoords())
+				continue;
 			double t = trts[i].getDistanceTo(longitude, latitude);
 			if (t> dist) {
 				dist = t;
