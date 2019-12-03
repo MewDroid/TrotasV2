@@ -367,10 +367,12 @@ public class Main {
 	}
 	
 	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
-		Trot trt = sys.getClosest(latitude,longitude);
-		if (trt != null) {
-			System.out.printf("Distancia: %.6f%n", trt.getDistanceTo(latitude, longitude));
-			System.out.println(trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getLatitude()+", "+trt.getLongitude());
+		Trot[] trt = sys.sortDistancesTrot(latitude,longitude);
+		if (trt.length > 0) {
+			for (int i = 0; i < trt.length; i++) {
+				System.out.printf("Distancia: %.6f%n", trt[i].getDistanceTo(latitude, longitude));
+				System.out.println(trt[i].getMatricula()+": "+trt[i].estado()+", "+trt[i].getAlugueres()+", "+trt[i].getTotalMinutos()+", "+trt[i].getLatitude()+", "+trt[i].getLongitude());	
+			}
 		}
 		else {
 			System.out.println(ERROS[12]);

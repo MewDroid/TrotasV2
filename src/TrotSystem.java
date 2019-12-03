@@ -371,6 +371,10 @@ public class TrotSystem {
 		itc.sort();
 		
 	}
+	
+	public Trot[] sortDistancesTrot(double latitude, double longitude) {
+		return itt.sortDistances(latitude, longitude);
+	}
 
 	public int numeroClientes() {
 		return itc.getCount();
