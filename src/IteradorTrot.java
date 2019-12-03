@@ -130,7 +130,7 @@ public class IteradorTrot {
 			if (!trts[i].hasCoords())
 				continue;
 			double t = trts[i].getDistanceTo(longitude, latitude);
-			if (t> dist) {
+			if (t< dist || dist == -1) {
 				dist = t;
 				trt = trts[i];
 			}
