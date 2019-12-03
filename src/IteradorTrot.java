@@ -123,6 +123,7 @@ public class IteradorTrot {
 		return trts[i].getIdTrot();
 	}
 	
+	//
 	public Trot[] sortDistances(double latitude, double longitude) {
 		Trot[] array = new Trot[trts.length];
 		boolean[] used = new boolean[trts.length];

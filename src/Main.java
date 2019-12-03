@@ -366,6 +366,7 @@ public class Main {
 			}
 	}
 	
+	//
 	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
 		Trot[] trt = sys.sortDistancesTrot(latitude,longitude);
 		if (trt.length > 0) {

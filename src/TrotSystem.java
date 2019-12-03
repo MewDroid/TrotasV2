@@ -372,6 +372,7 @@ public class TrotSystem {
 		
 	}
 	
+	//
 	public Trot[] sortDistancesTrot(double latitude, double longitude) {
 		return itt.sortDistances(latitude, longitude);
 	}
