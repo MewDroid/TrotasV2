@@ -20,6 +20,12 @@ public class Trot {
 		inativa = false;
 	}
 
+	/**
+	 * 
+	 * @param lat
+	 * @param lon
+	 * @return
+	 */
 	public double getDistanceTo(double lat, double lon) {
 		return Math.sqrt(Math.pow(lon - longitude,2) + Math.pow(lat - latitude,2));
 	}

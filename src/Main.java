@@ -369,8 +369,8 @@ public class Main {
 	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
 		Trot trt = sys.getClosest(latitude,longitude);
 		if (trt != null) {
-			System.out.printf("Distancia: ","%.6d",+ trt.getDistanceTo(latitude, longitude));
-			System.out.println("\n"+trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getLatitude()+", "+trt.getLongitude());
+			System.out.printf("Distancia: %.6f%n", trt.getDistanceTo(latitude, longitude));
+			System.out.println(trt.getMatricula()+": "+trt.estado()+", "+trt.getAlugueres()+", "+trt.getTotalMinutos()+", "+trt.getLatitude()+", "+trt.getLongitude());
 		}
 		else {
 			System.out.println(ERROS[12]);
