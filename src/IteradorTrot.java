@@ -78,6 +78,9 @@ public class IteradorTrot {
 	public void setCoords(String idTrot, double xCord, double yCord) {
 		trts[searchTrot(idTrot)].setCoords(xCord, yCord);
 	}
+	public void removeCoords(String idTrot) {
+		trts[searchTrot(idTrot)].removeCoords();
+	}
 	
 	public void setCliente(String idTrot, Cliente cliente) {
 		trts[searchTrot(idTrot)].setCliente(cliente);
@@ -132,7 +135,7 @@ public class IteradorTrot {
 			int j;
 			int id = -1;
 			for (j = 0; j < count; j++) {
-				if ((DistMax > trts[j].getDistanceTo(latitude, longitude) || DistMax == -1) && used[j] == false) {
+				if ((DistMax > trts[j].getDistanceTo(latitude, longitude) || DistMax == -1) && trts[j].hasCoords() && used[j] == false) {
 					DistMax = trts[j].getDistanceTo(latitude, longitude);
 					id = j;
 				}

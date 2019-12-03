@@ -4,7 +4,7 @@ public class Trot {
 	private boolean alugada;
 	private int alugueres, totalMinutos;
 	private double longitude, latitude;
-	private boolean trotWithCoords;
+	private boolean hasCoords;
 	private Cliente cliente;
 	private boolean inativa;
 
@@ -77,11 +77,15 @@ public class Trot {
 	public void setCoords(double lat, double lon) {
 		this.longitude = lon;
 		this.latitude = lat;
-		trotWithCoords = true;
+		hasCoords = true;
+	}
+	
+	public void removeCoords() {
+		hasCoords = false;
 	}
 
 	public boolean hasCoords() {
-		return trotWithCoords;
+		return hasCoords;
 	}
 	
 	/**

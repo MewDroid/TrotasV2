@@ -91,6 +91,7 @@ public class TrotSystem {
 	 * @return
 	 */
 	public void alugarTrot(String nif,String idTrot) {
+		itt.removeCoords(idTrot);
 		itc.setTrot(nif,itt.getTrot(itt.searchTrot(idTrot)));
 	}
 

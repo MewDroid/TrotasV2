@@ -26,12 +26,12 @@ public class Main {
 	public static final String[] ERROS = { "Cliente existente.", "Cliente inexistente.", "Cliente em movimento.",
 			"Cliente sem trotinete.", "Cliente sem saldo suficiente.", "Cliente iniciou novo aluguer.",
 			"Trotinete existente.", "Trotinete inexistente.", "Trotinete nao alugada.",
-			"Trotinete nao pode ser alugada.", "Trotinete em movimento.", "Trotinete reactivada.", "Nao existem trotinetes localizadas.",
-			"Trotinete nao inactiva.", "Valor invalido.", "Comando invalido.", "Localizacao invalida." };
+			"Trotinete nao pode ser alugada.", "Trotinete em movimento.", "Trotinete reactivada.",
+			"Nao existem trotinetes localizadas.", "Trotinete nao inactiva.", "Valor invalido.", "Comando invalido.",
+			"Localizacao invalida." };
 	public static final String[] SUCESSOS = { "Insercao de cliente com sucesso.", "Cliente removido com sucesso.",
 			"Insercao de trotinete com sucesso.", "Carregamento efectuado.", "Aluguer efectuado com sucesso.",
-			"Aluguer terminado.", "Saindo...", "Trotinete desactivada.",
-			"Trotinete reactivada." };
+			"Aluguer terminado.", "Saindo...", "Trotinete desactivada.", "Trotinete reactivada." };
 
 	/**
 	 * Inicio do programa.
@@ -343,42 +343,6 @@ public class Main {
 		}
 
 	}
-	
-	public static void libertarTrotLoc(String idTrot, int minutos, double latitude, double longitude, TrotSystem sys) {
-			if (sys.isInside(latitude, longitude)) {
-				if (minutos > 0) {
-					if (sys.hasTrot(idTrot)) {
-						if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
-							System.out.println(SUCESSOS[5]);
-							sys.libertarTrotLoc(idTrot, minutos, latitude, longitude);
-						} else {
-							System.out.println(ERROS[8]);
-						}
-					} else {
-						System.out.println(ERROS[7]);
-					}
-				} else {
-					System.out.println(ERROS[14]);
-				}
-			} else {
-				System.out.println(ERROS[16]);
-				
-			}
-	}
-	
-	//
-	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
-		Trot[] trt = sys.sortDistancesTrot(latitude,longitude);
-		if (trt.length > 0) {
-			for (int i = 0; i < trt.length; i++) {
-				System.out.printf("Distancia: %.6f%n", trt[i].getDistanceTo(latitude, longitude));
-				System.out.println(trt[i].getMatricula()+": "+trt[i].estado()+", "+trt[i].getAlugueres()+", "+trt[i].getTotalMinutos()+", "+trt[i].getLatitude()+", "+trt[i].getLongitude());	
-			}
-		}
-		else {
-			System.out.println(ERROS[12]);
-		}
-	}
 
 	/**
 	 * Desativa uma trotinete, esta acao proibe o uso da mesma para alugar.
@@ -440,8 +404,8 @@ public class Main {
 	 */
 	public static void dadosDeUtilizador(String nif, TrotSystem sys) {
 		if (sys.hasCliente(nif)) {
-			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
-					+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", "
+					+ sys.getTelefone(nif) + ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
 					+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
 					+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
 		} else {
@@ -509,8 +473,6 @@ public class Main {
 
 	}
 
-	
-
 	/**
 	 * @param sys
 	 */
@@ -521,7 +483,7 @@ public class Main {
 					+ sys.getAlugueresTrot(idTrot) + ", " + sys.getTotalMinutosTrot(idTrot));
 		}
 	}
-	
+
 	/**
 	 * @param sys
 	 */
@@ -529,25 +491,66 @@ public class Main {
 		sys.sortClienteNif();
 		for (int i = 0; i < sys.numeroClientes(); i++) {
 			String nif = sys.getNif(i);
-			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", " + sys.getTelefone(nif)
-			+ ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
-			+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
-			+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
+			System.out.println(sys.getNome(nif) + ": " + sys.getNif(nif) + ", " + sys.getEmail(nif) + ", "
+					+ sys.getTelefone(nif) + ", " + sys.getSaldo(nif) + ", " + sys.getTotalMinutosCliente(nif) + ", "
+					+ sys.getAlugueresCliente(nif) + ", " + sys.getMaxMinutosCliente(nif) + ", "
+					+ sys.getMedMinutosCliente(nif) + ", " + sys.getTotalCentimosCliente(nif));
 		}
 	}
-	
+
 	/**
 	 * @param sys
 	 */
 	public static void listarDevedores(TrotSystem sys) {
 		Cliente[] cl = sys.getDevedores();
-		for (int i = 0; i < sys.numeroClientes() ; i++) {
+		for (int i = 0; i < sys.numeroClientes(); i++) {
 			if (cl[i] != null)
-				System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", " + cl[i].getTelefone()
-			+ ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
-			+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", "
-			+ cl[i].getMedMinutos() + ", " + cl[i].getTotalCentimos());
+				System.out.println(cl[i].getNome() + ": " + cl[i].getNif() + ", " + cl[i].getEmail() + ", "
+						+ cl[i].getTelefone() + ", " + cl[i].getSaldo() + ", " + cl[i].getTotalMinutos() + ", "
+						+ cl[i].getAlugueres() + ", " + cl[i].getMaxMinutos() + ", " + cl[i].getMedMinutos() + ", "
+						+ cl[i].getTotalCentimos());
 		}
 	}
-	
+
+	public static void libertarTrotLoc(String idTrot, int minutos, double latitude, double longitude, TrotSystem sys) {
+		if (sys.isInside(latitude, longitude)) {
+			if (minutos > 0) {
+				if (sys.hasTrot(idTrot)) {
+					if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
+						System.out.println(SUCESSOS[5]);
+						sys.libertarTrotLoc(idTrot, minutos, latitude, longitude);
+					} else {
+						System.out.println(ERROS[8]);
+					}
+				} else {
+					System.out.println(ERROS[7]);
+				}
+			} else {
+				System.out.println(ERROS[14]);
+			}
+		} else {
+			System.out.println(ERROS[16]);
+
+		}
+	}
+
+	//
+	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
+		Trot[] trt = sys.sortDistancesTrot(latitude, longitude);
+		if (trt[0] != null) {
+			for (int i = 0; i < sys.numeroTrots(); i++) {
+				if (trt[i] != null) {
+					String lat = String.format("%.6f",trt[i].getLatitude());
+					String lon = String.format("%.6f",trt[i].getLongitude());
+					System.out.printf("Distancia: %.6f%n", trt[i].getDistanceTo(latitude, longitude));
+					System.out.println(trt[i].getMatricula() + ": " + trt[i].estado() + ", " + trt[i].getAlugueres()
+							+ ", " + trt[i].getTotalMinutos() + ", " + lat + ", "
+							+ lon);
+				}
+			}
+		} else {
+			System.out.println(ERROS[12]);
+		}
+	}
+
 }
