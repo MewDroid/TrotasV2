@@ -1,4 +1,7 @@
-
+/**
+ * @author Guilherme Cipriano Carvalho.
+ *
+ */
 public class Trot {
 	private String idTrot, matricula;
 	private boolean alugada;
@@ -21,13 +24,14 @@ public class Trot {
 	}
 
 	/**
+	 * Calcula a distancia a um dado ponto.
 	 * 
 	 * @param lat
 	 * @param lon
 	 * @return
 	 */
 	public double getDistanceTo(double lat, double lon) {
-		return Math.sqrt(Math.pow(lon - longitude,2) + Math.pow(lat - latitude,2));
+		return Math.sqrt(Math.pow(lon - longitude, 2) + Math.pow(lat - latitude, 2));
 	}
 
 	/**
@@ -73,21 +77,36 @@ public class Trot {
 	public void setIdTrot(String idTrot) {
 		this.idTrot = idTrot;
 	}
-	
+
+	/**
+	 * Atribui as coordenadas da localizacao da trotinete.
+	 * 
+	 * @param lat
+	 * @param lon
+	 */
 	public void setCoords(double lat, double lon) {
 		this.longitude = lon;
 		this.latitude = lat;
 		hasCoords = true;
 	}
-	
+
+	/**
+	 * Retira as coordenadas da localizacao da trotinete.
+	 * 
+	 */
 	public void removeCoords() {
 		hasCoords = false;
 	}
 
+	/**
+	 * Indica se a trotinete tem localizacao atribuida.
+	 * 
+	 * @return
+	 */
 	public boolean hasCoords() {
 		return hasCoords;
 	}
-	
+
 	/**
 	 * Devolve a matricula.
 	 * 
@@ -194,13 +213,22 @@ public class Trot {
 		this.inativa = inativa;
 	}
 
+	/**
+	 * Devolve a longitude da localizacao da trotinete.
+	 * 
+	 * @return
+	 */
 	public double getLongitude() {
 		return longitude;
 	}
 
+	/**
+	 * Devolve a latitude da localizacao da trotinete.
+	 * 
+	 * @return
+	 */
 	public double getLatitude() {
 		return latitude;
 	}
-	
-	
+
 }

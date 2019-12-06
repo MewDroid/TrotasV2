@@ -1,3 +1,7 @@
+/**
+ * @author Guilherme Cipriano Carvalho.
+ *
+ */
 
 public class Cliente {
 	private String nif, email, telefone, nome;
@@ -43,7 +47,7 @@ public class Cliente {
 	 */
 	public void setTrot(Trot trot) {
 		this.trot = trot;
-		if (trot !=null)
+		if (trot != null)
 			trot.setCliente(this);
 	}
 
@@ -138,6 +142,7 @@ public class Cliente {
 	}
 
 	/**
+	 * Devolve o numero de alugueres realizados.
 	 * 
 	 * @return
 	 */

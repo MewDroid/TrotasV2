@@ -1,6 +1,11 @@
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * @author Guilherme Cipriano Carvalho.
+ *
+ */
+
 public class Main {
 	// Comandos possiveis de utilizar no programa
 	public static final String ADICIONAR_CLIENTE = "ADCLIENTE";
@@ -44,40 +49,10 @@ public class Main {
 		TrotSystem sys = new TrotSystem();
 		Scanner in = new Scanner(System.in);
 		while (!cmd.toUpperCase().equals(SAIR)) {
-			cmd = readString(in);
+			cmd = in.next();
 			processCommand(sys, in, cmd);
 		}
 		in.close();
-	}
-
-	/**
-	 * Le a string seguinte introduzida.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	private static String readString(Scanner in) {
-		return in.next();
-	}
-
-	/**
-	 * Le o nome do cliente.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	private static String readName(Scanner in) {
-		return in.nextLine();
-	}
-
-	/**
-	 * Le o inteiro seguinte introduzido.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	private static int readInt(Scanner in) {
-		return in.nextInt();
 	}
 
 	/**
@@ -100,64 +75,64 @@ public class Main {
 		double latitude;
 		switch (cmd.toUpperCase()) {
 		case ADICIONAR_CLIENTE:
-			nif = readString(in);
-			email = readString(in);
-			telefone = readString(in);
-			nome = readName(in).trim();
+			nif = in.next();
+			email = in.next();
+			telefone = in.next();
+			nome = in.nextLine().trim();
 			adicionarCliente(nif, email, telefone, nome, sys);
 			break;
 		case REMOVER_CLIENTE:
-			nif = readString(in);
+			nif = in.next();
 			in.nextLine();
 			removerCliente(nif, sys);
 			break;
 		case ADICIONAR_TROT:
-			idTrot = readString(in);
-			matricula = readString(in);
+			idTrot = in.next();
+			matricula = in.next();
 			in.nextLine();
 			adicionarTrot(idTrot, matricula, sys);
 			break;
 		case DADOS_CLIENTE:
-			nif = readString(in);
+			nif = in.next();
 			in.nextLine();
 			dadosDeUtilizador(nif, sys);
 			break;
 		case INFORMACAO_TROT:
-			nif = readString(in);
+			nif = in.next();
 			in.nextLine();
 			trotDeUtilizador(nif, sys);
 			break;
 		case DADOS_TROT:
-			idTrot = readString(in);
+			idTrot = in.next();
 			in.nextLine();
 			dadosTrot(idTrot, sys);
 			break;
 		case UTILIZADOR_TROT:
-			idTrot = readString(in);
+			idTrot = in.next();
 			in.nextLine();
 			utilizadorDeTrot(idTrot, sys);
 			break;
 		case ADICIONAR_SALDO:
-			nif = readString(in);
-			valorCentimos = readInt(in);
+			nif = in.next();
+			valorCentimos = in.nextInt();
 			in.nextLine();
 			adicionarSaldo(nif, valorCentimos, sys);
 			break;
 		case ALUGAR:
-			nif = readString(in);
-			idTrot = readString(in);
+			nif = in.next();
+			idTrot = in.next();
 			in.nextLine();
 			alugarTrot(nif, idTrot, sys);
 			break;
 		case LIBERTAR:
-			idTrot = readString(in);
-			minutos = readInt(in);
+			idTrot = in.next();
+			minutos = in.nextInt();
 			in.nextLine();
 			libertarTrot(idTrot, minutos, sys);
 			break;
 		case LIBLOCAL:
-			idTrot = readString(in);
-			minutos = readInt(in);
+			idTrot = in.next();
+			minutos = in.nextInt();
 			latitude = in.nextDouble();
 			longitude = in.nextDouble();
 			in.hasNextLine();
@@ -174,12 +149,12 @@ public class Main {
 			dadosSistema(sys);
 			break;
 		case DESATIVAR:
-			idTrot = readString(in);
+			idTrot = in.next();
 			in.nextLine();
 			desativarTrot(idTrot, sys);
 			break;
 		case REACTIVAR:
-			idTrot = readString(in);
+			idTrot = in.next();
 			in.nextLine();
 			reactivatTrot(idTrot, sys);
 			break;
@@ -279,7 +254,7 @@ public class Main {
 				System.out.println(ERROS[1]);
 			}
 		} else {
-			System.out.println(ERROS[13]);
+			System.out.println(ERROS[14]);
 		}
 
 	}
@@ -318,7 +293,7 @@ public class Main {
 	}
 
 	/**
-	 * Acaba um alugamento de uma trotinete.
+	 * Liberta uma trotinete sem indicacao de localizacao.
 	 * 
 	 * @param idTrot
 	 * @param minutos
@@ -330,7 +305,7 @@ public class Main {
 			if (sys.hasTrot(idTrot)) {
 				if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
 					System.out.println(SUCESSOS[5]);
-					sys.libertarTrot(idTrot, minutos);
+					sys.libertarTrot(idTrot, minutos, false, 0, 0);
 
 				} else {
 					System.out.println(ERROS[8]);
@@ -378,7 +353,7 @@ public class Main {
 				System.out.println(SUCESSOS[8]);
 				sys.setInativa(idTrot, false);
 			} else {
-				System.out.println(ERROS[12]);
+				System.out.println(ERROS[13]);
 			}
 		} else {
 			System.out.println(ERROS[7]);
@@ -474,6 +449,8 @@ public class Main {
 	}
 
 	/**
+	 * Lista as trotinetes por ordem de insercao no sistema.
+	 * 
 	 * @param sys
 	 */
 	public static void listarTrotinetes(TrotSystem sys) {
@@ -485,6 +462,8 @@ public class Main {
 	}
 
 	/**
+	 * Lista os clientes por ordem de NIF.
+	 * 
 	 * @param sys
 	 */
 	public static void listarClientes(TrotSystem sys) {
@@ -499,6 +478,9 @@ public class Main {
 	}
 
 	/**
+	 * Lista os clientes com saldo negativo por ordem crescente de saldo, em caso de
+	 * conflito ordena pelo NIF.
+	 * 
 	 * @param sys
 	 */
 	public static void listarDevedores(TrotSystem sys) {
@@ -512,13 +494,22 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Liberta uma trotinete com indicacao de localizacao.
+	 * 
+	 * @param idTrot
+	 * @param minutos
+	 * @param latitude
+	 * @param longitude
+	 * @param sys
+	 */
 	public static void libertarTrotLoc(String idTrot, int minutos, double latitude, double longitude, TrotSystem sys) {
 		if (sys.isInside(latitude, longitude)) {
 			if (minutos > 0) {
 				if (sys.hasTrot(idTrot)) {
 					if (sys.getUtilizadorDeTrot(idTrot) != null && !sys.isInativa(idTrot)) {
 						System.out.println(SUCESSOS[5]);
-						sys.libertarTrotLoc(idTrot, minutos, latitude, longitude);
+						sys.libertarTrot(idTrot, minutos, true, latitude, longitude);
 					} else {
 						System.out.println(ERROS[8]);
 					}
@@ -534,18 +525,24 @@ public class Main {
 		}
 	}
 
-	//
+	/**
+	 * Mostra todas as trotinetes com dados de localizacao ordenadas por proximidade
+	 * a um dado ponto.
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @param sys
+	 */
 	public static void localizarTrot(double latitude, double longitude, TrotSystem sys) {
 		Trot[] trt = sys.sortDistancesTrot(latitude, longitude);
 		if (trt[0] != null) {
 			for (int i = 0; i < sys.numeroTrots(); i++) {
 				if (trt[i] != null) {
-					String lat = String.format("%.6f",trt[i].getLatitude());
-					String lon = String.format("%.6f",trt[i].getLongitude());
+					String lat = String.format("%.6f", trt[i].getLatitude());
+					String lon = String.format("%.6f", trt[i].getLongitude());
 					System.out.printf("Distancia: %.6f%n", trt[i].getDistanceTo(latitude, longitude));
 					System.out.println(trt[i].getMatricula() + ": " + trt[i].estado() + ", " + trt[i].getAlugueres()
-							+ ", " + trt[i].getTotalMinutos() + ", " + lat + ", "
-							+ lon);
+							+ ", " + trt[i].getTotalMinutos() + ", " + lat + ", " + lon);
 				}
 			}
 		} else {
